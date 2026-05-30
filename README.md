@@ -57,6 +57,6 @@ python3 -m http.server 8080
 - sections blur in on scroll — kept it subtle, not annoying
 
 
-------
+---
 
 
