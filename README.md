@@ -55,9 +55,8 @@ python3 -m http.server 8080
 
 - theme is catppuccin mocha, one of the better dark themes out there
 - sections blur in on scroll — kept it subtle, not annoying
-- mobile responsive across all screen sizes
-- if the contact form doesn't actually send anything, that's because there's no backend. it's just frontend for now.
+
 
 ---
 
-feel free to fork it or take whatever you want from it.
+
