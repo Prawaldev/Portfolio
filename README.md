@@ -1,8 +1,8 @@
-# 6bpr's portfolio
+# Prawal's portfolio
 
 my personal portfolio site. built it from scratch — no frameworks, no build tools, just plain html/css/js.
 
-**live:** https://6bpr.github.io/Portfolio
+**live:** https://Prawaldev.github.io/Portfolio
 
 ---
 
@@ -35,7 +35,7 @@ no npm, no bundler, no dependencies to install. just open `index.html` in a brow
 ## running locally
 
 ```bash
-git clone https://github.com/6bpr/Portfolio.git
+git clone https://github.com/Prawaldev/Portfolio.git
 cd Portfolio
 # open index.html in your browser, or:
 python3 -m http.server 8080
@@ -45,9 +45,9 @@ python3 -m http.server 8080
 
 ## projects featured
 
-**[recipe finder](https://github.com/6bpr/6bpr-recipe)** — responsive recipe browsing site. pretty straightforward.
+**[recipe finder](https://github.com/Prawaldev/prawal-recipe)** — responsive recipe browsing site. pretty straightforward.
 
-**[pirated lib](https://github.com/6bpr/pirated-lib)** — curated index of sites/apps for japanese media. zero dependencies, just a fast static page.
+**[pirated lib](https://github.com/Prawaldev/pirated-lib)** — curated index of sites/apps for japanese media. zero dependencies, just a fast static page.
 
 ---
 
