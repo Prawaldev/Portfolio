@@ -500,6 +500,21 @@ main {
     font-size: 0.75rem;
 }
 
+.project-links {
+    display: flex;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.project-link-web {
+    color: var(--teal);
+}
+
+.project-link-web:hover {
+    color: var(--green);
+}
+
 /* Contact */
 .contact-layout {
     display: grid;
