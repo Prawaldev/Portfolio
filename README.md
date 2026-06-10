@@ -1,62 +1,73 @@
-# Prawal's portfolio
+# React + TypeScript + Vite
 
-my personal portfolio site. built it from scratch — no frameworks, no build tools, just plain html/css/js.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-**live:** https://Prawaldev.github.io/Portfolio
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## what's in here
+## React Compiler
 
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-.
-├── index.html
-├── style.css
-├── script.js
-├── recepie.png
-└── pirated.png
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-nothing fancy. one page, sections for about/skills/projects/contact. that's it.
-
----
-
-## stack
-
-- html, css, vanilla js
-- [catppuccin mocha](https://github.com/catppuccin/catppuccin) color palette
-- ubuntu sans mono (google fonts)
-- font awesome for icons
-
-no npm, no bundler, no dependencies to install. just open `index.html` in a browser.
-
----
-
-## running locally
-
-```bash
-git clone https://github.com/Prawaldev/Portfolio.git
-cd Portfolio
-# open index.html in your browser, or:
-python3 -m http.server 8080
-```
-
----
-
-## projects featured
-
-**[recipe finder](https://github.com/Prawaldev/prawal-recipe)** — responsive recipe browsing site. pretty straightforward.
-
-**[pirated lib](https://github.com/Prawaldev/pirated-lib)** — curated index of sites/apps for japanese media. zero dependencies, just a fast static page.
-
----
-
-## notes
-
-- theme is catppuccin mocha, one of the better dark themes out there
-- sections blur in on scroll — kept it subtle, not annoying
-
-
----
-
-
