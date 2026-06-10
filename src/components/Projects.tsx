@@ -7,6 +7,10 @@ interface ProjectProps {
   image: string;
 }
 
+import AnimeWiki from "../assets/anime-wiki.png";
+import PiratedLib from "../assets/pirated.png";
+import RecipeFinder from "../assets/recipe.png";
+
 const ProjectCard = ({ title, description, tech, github, live, image }: ProjectProps) => {
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 transition-colors">
@@ -32,7 +36,7 @@ const Projects = () => {
       tech: "TS · React · Vite",
       github: "https://github.com/Prawaldev/anime-wiki",
       live: "https://prawaldev.github.io/anime-wiki/",
-      image: "/anime-wiki.png"
+      image: AnimeWiki
     },
     { 
       title: "Pirated Lib", 
@@ -40,7 +44,7 @@ const Projects = () => {
       tech: "HTML · CSS · JS",
       github: "https://github.com/Prawaldev/pirated-lib",
       live: "https://prawaldev.github.io/Pirated-Lib/",
-      image: "/pirated.png"
+      image: PiratedLib
     },
     { 
       title: "Recipe Finder", 
@@ -48,7 +52,7 @@ const Projects = () => {
       tech: "HTML · CSS · JS",
       github: "https://github.com/Prawaldev/6bpr-recipe",
       live: "https://prawaldev.github.io/prawal-recipe/",
-      image: "/recipe.png"
+      image: RecipeFinder
     },
   ];
 
