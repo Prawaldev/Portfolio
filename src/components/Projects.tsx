@@ -14,8 +14,8 @@ import RecipeFinder from "../assets/recipe.png";
 const ProjectCard = ({ title, description, tech, github, live, image }: ProjectProps) => {
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 transition-colors">
-      <img src={image} alt={title} className="w-full h-40 object-cover bg-gray-100" />
-      <div className="p-5">
+      <img src={image} alt={title} className="w-full bg-gray-100" />
+      <div className="p-6">
         <h3 className="text-lg font-bold text-gray-900 mb-1">{title}</h3>
         <p className="text-xs text-gray-500 mb-3">{tech}</p>
         <p className="text-sm text-gray-600 mb-4">{description}</p>
@@ -58,9 +58,9 @@ const Projects = () => {
 
   return (
     <section id="projects" className="py-20 px-6 border-t border-gray-100">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <h2 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-10">Featured Projects</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-8">
           {projects.map((p) => (
             <ProjectCard key={p.title} {...p} />
           ))}
