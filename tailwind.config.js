@@ -7,22 +7,21 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Source Code Pro"', 'ui-monospace', 'monospace'],
-        sans: ['"Source Code Pro"', 'ui-monospace', 'monospace'],
+        sans: ['"Brass Mono Code"', 'ui-monospace', 'monospace'],
       },
       colors: {
-        paper: '#F2EEDB',
-        ink: '#23211C',
-        sky: '#21679B',
-        link: '#B98A00',
-        wall: '#EDE7F3',
-        tea: '#2E9C9C',
-        blu: '#3E6FD6',
-        pur: '#8B5FC6',
-        rud: '#C8503F',
+        paper: '#000000',
+        ink: '#e4e4e7',
+        sky: '#60a5fa',
+        link: '#93c5fd',
+        wall: '#000000',
+        tea: '#8b8b94',
+        blu: '#60a5fa',
+        pur: '#818cf8',
+        rud: '#f87171',
+        edge: '#27272a',
       },
     },
   },
   plugins: [],
 }
-

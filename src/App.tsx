@@ -1,19 +1,9 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Projects from './components/Projects';
-import Accounts from './components/Accounts';
-import Footer from './components/Footer';
+import Universe from './components/Universe';
 
 function App() {
   return (
-    <div className="min-h-screen bg-paper/70 text-ink">
-      <Navbar />
-      <main>
-        <Hero />
-        <Projects />
-        <Accounts />
-      </main>
-      <Footer />
+    <div className="min-h-screen bg-black text-ink">
+      <Universe />
     </div>
   );
 }
