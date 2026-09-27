@@ -1,3 +1,7 @@
+/* ==========================================================================
+   Brass Mono Code — self hosted (SIL OFL 1.1)
+   ========================================================================== */
+
 @font-face {
   font-family: 'Brass Mono Code';
   src: url('/fonts/BrassMonoCode-Regular.ttf') format('truetype');
@@ -14,6 +18,63 @@
   font-display: swap;
 }
 
+/* ==========================================================================
+   Theme tokens — dark is the default identity of the site,
+   the sun button in the navbar flips to a light terminal.
+   ========================================================================== */
+
+:root {
+  --bg: #000000;
+  --surface: #0a0d12;
+  --surface-raised: #0e1218;
+  --surface-sunken: #10151c;
+  /* inset blocks (terminal window, image badge) sit *below* the panel */
+  --void: #04060a;
+  --line: #1b2027;
+  --line-soft: #141920;
+  --line-bright: #2b323c;
+  --ink: #e9ebee;
+  --ink-soft: #bcc2cc;
+  --ink-dim: #9ba5b3;
+  /* the smallest text gets its own cool grey so it never merges with the panel */
+  --ink-faint: #8e9cae;
+  --amber: #e0be52;
+  --amber-dim: #a8912f;
+  --steel: #97a7ba;
+  /* the small type — labels, tags, meta — gets its own loud colour so it
+     never disappears into the pure black background */
+  --signal: #6fd3e8;
+  --signal-dim: #3d9db6;
+  --github: #ffffff;
+  --discord: #5865f2;
+  --selection: #e0be52;
+  --selection-ink: #000000;
+}
+
+[data-theme='light'] {
+  --bg: #eeeeea;
+  --surface: #fbfbf9;
+  --surface-raised: #ffffff;
+  --surface-sunken: #f2f2ef;
+  --void: #e4e4de;
+  --line: #d7d7d0;
+  --line-soft: #e5e5df;
+  --line-bright: #bab9b1;
+  --ink: #0f1216;
+  --ink-soft: #3a404a;
+  --ink-dim: #474d57;
+  --ink-faint: #4f5a66;
+  --amber: #7a5f0c;
+  --amber-dim: #a68a2c;
+  --steel: #46525f;
+  --signal: #0b6a82;
+  --signal-dim: #5a99a8;
+  --github: #181717;
+  --discord: #5865f2;
+  --selection: #7a5f0c;
+  --selection-ink: #fbfbf9;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,217 +82,273 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* keeps anchored panels from hiding under the top of the viewport */
+    scroll-padding-top: 2rem;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background-color: #000000;
-    margin: 0;
-    color: theme('colors.ink');
-    font-family: 'Brass Mono Code', ui-monospace, monospace;
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: 'Brass Mono Code', ui-monospace, SFMono-Regular, Menlo, monospace;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: #a78bfa;
-    color: #000;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
+    background: var(--selection);
+    color: var(--selection-ink);
   }
 
   :focus-visible {
-    outline: 2px solid #a78bfa;
-    outline-offset: 2px;
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+  }
+
+  /* thin, quiet scrollbar to match the rest of the UI */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-bright) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--line-bright);
+  }
+
+  img {
+    display: block;
   }
 }
 
-.universe {
-  position: relative;
-  height: 100vh;
-  height: 100dvh;
-  width: 100%;
-  overflow: hidden;
-  background-color: #000000;
-}
+@layer components {
+  /* ---------- layout ---------- */
 
-.universe-scene {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  width: 100%;
-  touch-action: none;
-}
+  .shell {
+    width: min(92vw, 1320px);
+    margin-inline: auto;
+  }
 
-.universe-hint {
-  position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: rgba(148, 163, 184, 0.35);
-  user-select: none;
-}
+  /* every panel is a 1px bordered box on the near-black surface */
+  .panel {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    padding: clamp(1.5rem, 2.6vw, 2.6rem);
+  }
 
-.node-label {
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  user-select: none;
-}
+  .panel-tight {
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    padding: clamp(1.25rem, 2vw, 1.8rem);
+  }
 
-.node-badge {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  opacity: 0.92;
-  transition:
-    transform 0.25s ease,
-    opacity 0.25s ease;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
+  /* ---------- type ---------- */
 
-.node-badge-lg {
-  width: 52px;
-  height: 52px;
-}
+  .label {
+    font-size: 0.73rem;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--signal);
+  }
 
-.node-badge-hover {
-  transform: scale(1.14);
-  opacity: 1;
-}
+  .label-amber {
+    font-size: 0.73rem;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
 
-.node-icon {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  -webkit-user-drag: none;
-  user-select: none;
-}
+  .display {
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
 
-.loading-core {
-  width: 64px;
-  height: 64px;
-  border-radius: 9999px;
-  border: 1px solid rgba(167, 139, 250, 0.35);
-  border-top-color: #a78bfa;
-  animation: core-spin 1.2s linear infinite;
-}
+  .prose-dim {
+    color: var(--ink-soft);
+    line-height: 1.85;
+  }
 
-@keyframes core-spin {
-  to {
-    transform: rotate(360deg);
+  /* ---------- buttons ---------- */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.25rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--line-bright);
+    background-color: transparent;
+    color: var(--ink);
+    border-radius: 2px;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .btn:hover {
+    border-color: var(--ink-dim);
+    background-color: var(--surface-raised);
+    transform: translateY(-2px);
+  }
+
+  .btn-accent {
+    border-color: var(--amber-dim);
+    color: var(--amber);
+  }
+
+  .btn-accent:hover {
+    border-color: var(--amber);
+    background-color: var(--surface-raised);
+    color: var(--amber);
+  }
+
+  /* ---------- small parts ---------- */
+
+  .tag {
+    display: inline-block;
+    padding: 0.22rem 0.6rem;
+    font-size: 0.73rem;
+    letter-spacing: 0.06em;
+    color: var(--signal);
+    background-color: var(--surface-sunken);
+    border: 1px solid var(--signal-dim);
+    border-radius: 2px;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .tag:hover {
+    color: var(--ink);
+    border-color: var(--line-bright);
+  }
+
+  .hairline {
+    height: 1px;
+    background-color: var(--line);
+    border: 0;
+  }
+
+  /* the smallest meta text — signatures, notes, badges */
+  .meta {
+    color: var(--signal);
+  }
+
+  .meta-dim {
+    color: var(--signal-dim);
+  }
+
+  /* em dash drawn as a hairline — Brass Mono Code has no U+2014 glyph,
+     and a 1px rule matches the rest of the interface anyway */
+  .dash::before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1px;
+    margin-right: 0.45em;
+    background-color: currentColor;
+    vertical-align: 0.3em;
+  }
+
+  .vline {
+    width: 1px;
+    background-color: var(--line);
+    align-self: stretch;
+  }
+
+  /* terminal caret that blinks next to the name */
+  .caret {
+    display: inline-block;
+    width: 0.3em;
+    height: 0.7em;
+    margin-left: 0.14em;
+    background-color: var(--amber);
+    vertical-align: -0.02em;
+    animation: caret-blink 1.15s steps(1, end) infinite;
+  }
+
+  .caret-ink {
+    display: inline-block;
+    width: 0.3em;
+    height: 0.7em;
+    background-color: var(--ink);
+    vertical-align: -0.02em;
+  }
+
+  .prompt {
+    color: var(--amber);
+  }
+
+  /* ---------- links ---------- */
+
+  .text-link {
+    color: var(--ink-soft);
+    transition: color 0.2s ease;
+  }
+
+  .text-link:hover {
+    color: var(--amber);
+  }
+
+  /* ---------- entrance ---------- */
+
+  /* display:grid so a panel stretches to the full height of its grid row */
+  .reveal {
+    display: grid;
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+  }
+
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
   }
 }
 
-.info-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  display: grid;
-  place-items: center;
-  padding: 16px;
-  background: rgba(0, 0, 0, 0.78);
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
 
-.info-wrap {
-  position: relative;
-  width: 100%;
-  max-width: 420px;
-  max-height: min(85vh, 640px);
-  overflow-y: auto;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(4, 4, 7, 0.96);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
-  padding: 22px 22px 26px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
-}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.info-wrap::-webkit-scrollbar {
-  width: 8px;
-}
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 
-.info-wrap::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
-}
-
-.info-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.info-close {
-  font-size: 1.5rem;
-  line-height: 1;
-  padding: 4px 8px;
-  color: rgba(228, 228, 231, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: color 0.2s, border-color 0.2s;
-  background: transparent;
-}
-
-.info-close:hover {
-  color: #ffffff;
-  border-color: rgba(167, 139, 250, 0.5);
-}
-
-.panel-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.tech-chip {
-  font-size: 0.7rem;
-  padding: 3px 10px;
-  border: 1px solid rgba(167, 139, 250, 0.25);
-  color: rgba(196, 181, 253, 0.9);
-  background: rgba(139, 92, 246, 0.06);
-}
-
-.panel-link {
-  font-size: 0.72rem;
-  color: rgba(165, 243, 252, 0.9);
-  text-decoration: none;
-}
-
-.panel-link:hover {
-  color: #22d3ee;
-  text-decoration: underline;
-}
-
-.panel-cta {
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-  padding: 11px 16px;
-  font-size: 0.82rem;
-  letter-spacing: 0.12em;
-  text-decoration: none;
-  border: 1px solid rgba(167, 139, 250, 0.35);
-  background: rgba(139, 92, 246, 0.08);
-  color: rgba(228, 228, 231, 0.9);
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-}
-
-.panel-cta:hover {
-  background: rgba(139, 92, 246, 0.18);
-  border-color: rgba(167, 139, 250, 0.7);
-  color: #ffffff;
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

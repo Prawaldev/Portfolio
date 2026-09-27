@@ -1,75 +1,175 @@
-import animeWikiShot from './assets/anime-wiki.png';
-import piratedShot from './assets/pirated.png';
-
-export type NodeId = 'about' | 'projects' | 'github' | 'discord' | 'games';
-
-export interface NodeDef {
-  id: NodeId;
-  title: string;
-  color: string;
-  accent: string;
-  icon: string;
-}
+import animeWikiShot from './assets/anime-wiki.webp'
+import directoryShot from './assets/directory.webp'
+import portfolioShot from './assets/portfolio-preview.svg'
 
 export const profile = {
-  name: 'Prawaldev',
-  role: 'web developer',
-  bio: "This is where I keep the things I build and experiment with. I mostly work with React and TypeScript, and I'm always picking up new technologies as I go.",
-  technologies: ['React', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Tailwind', 'Git', 'Linux'],
-};
+  name: 'Prawal Khadka',
+  role: 'BCA Student | Aspiring Developer',
+  /* the em dash in the tagline is drawn as a hairline, so it is split out */
+  tagline: {
+    before: 'Exploring the digital world, one project at a time. Learning, building, improving',
+    after: 'with the help of AI.',
+  },
+  heroNote: 'Currently learning. Building for experience.',
+}
+
+export const sectionIds = ['home', 'about', 'projects', 'contact'] as const
+
+export const navLinks = [
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Contact', href: '#contact' },
+]
+
+export const facts = [
+  { icon: '◇', text: 'BCA Student (1st Semester)' },
+  { icon: '▣', text: 'Always Learning' },
+  { icon: '</>', text: 'Anime, Tech, Linux, Android' },
+]
 
 export interface Project {
-  title: string;
-  description: string;
-  tech: string[];
-  github: string;
-  live: string;
-  image: string;
+  title: string
+  description: string
+  tags: string[]
+  preview: string
+  live: string
+  repo: string
 }
 
 export const projects: Project[] = [
   {
-    title: 'anime-wiki',
-    description:
-      'A Wikipedia-style anime character encyclopedia built from scratch with a clean, searchable interface.',
-    tech: ['TS', 'React', 'Vite'],
-    github: 'https://github.com/Prawaldev/anime-wiki',
-    live: 'https://prawaldev.github.io/anime-wiki/',
-    image: animeWikiShot,
+    title: 'Portfolio Website',
+    description: 'My personal portfolio with a clean, minimalist design and interactive elements.',
+    tags: ['HTML', 'CSS', 'JS', 'AI'],
+    preview: portfolioShot,
+    live: 'https://prawal.is-a.dev',
+    repo: 'https://github.com/Prawaldev/Portfolio',
   },
   {
-    title: 'pirated-lib',
-    description:
-      'Curated index of sites and apps for Japanese media — anime, manga, and novels.',
-    tech: ['TS', 'React', 'Vite'],
-    github: 'https://github.com/Prawaldev/pirated-lib',
-    live: 'https://prawaldev.github.io/Pirated-Lib/',
-    image: piratedShot,
+    title: 'Anime Wiki',
+    description: 'An anime information website with search and details using Jikan API + Wikipedia.',
+    tags: ['React', 'TypeScript', 'Vite'],
+    preview: animeWikiShot,
+    live: 'https://Prawaldev.github.io/anime-wiki',
+    repo: 'https://github.com/Prawaldev/anime-wiki',
   },
-];
+  {
+    title: 'Pirated Lib',
+    description: 'A large directory-style website with 11k+ entries (learning project).',
+    tags: ['React', 'TypeScript', 'API'],
+    preview: directoryShot,
+    live: 'https://prawaldev.github.io/Pirated-Lib/',
+    repo: 'https://github.com/Prawaldev/Pirated-Lib',
+  },
+]
 
 export const socials = [
-  { label: 'GitHub', url: 'https://github.com/Prawaldev', handle: 'Prawaldev' },
-  { label: 'Discord', url: 'https://discord.com/users/6bpr', handle: '6bpr' },
-];
+  {
+    label: 'GitHub',
+    handle: 'github.com/Prawaldev',
+    href: 'https://github.com/Prawaldev',
+    brand: 'github' as const,
+  },
+  {
+    label: 'Discord',
+    handle: '6bpr',
+    href: 'https://discord.com/users/6bpr',
+    brand: 'discord' as const,
+  },
+]
 
-export const nodes: NodeDef[] = [
-  { id: 'about', title: 'About me', color: '#a78bfa', accent: '#8b5cf6', icon: '/icon-512.png' },
-  { id: 'projects', title: 'Projects', color: '#22d3ee', accent: '#06b6d4', icon: '/logos/project.svg' },
-  { id: 'github', title: 'GitHub', color: '#c4b5fd', accent: '#a78bfa', icon: '/logos/github.svg' },
-  { id: 'discord', title: 'Discord', color: '#5865f2', accent: '#4752c4', icon: '/logos/discord.svg' },
-  { id: 'games', title: 'Games', color: '#fb7185', accent: '#f43f5e', icon: '/logos/game.svg' },
-];
+export const contactNotes = [
+  '> Check my GitHub',
+  '> Add me on Discord',
+  '> Casual chatting',
+  '> Build with AI',
+]
 
-export interface Game {
-  name: string;
-  url: string;
-  image: string;
+export const realityCheckLines = [
+  "I'm not a professional web developer.",
+  "I'm a BCA student, still learning.",
+  "I use AI tools to help me build these websites\nbecause I don't have real personal skills yet.",
+  'These projects are part of my learning journey\nand a way to gain experience, improve, and\nbecome better at web development over time.',
+]
+
+/* ---------------------------------------------------------------- favourites
+   one folder per box in src/assets/, so dropping a new poster in a folder is
+   enough to get it on the site. titles come from the file names. */
+
+const animePosters = import.meta.glob<string>(
+  './assets/My fav anime/*.webp',
+  { eager: true, import: 'default' },
+)
+const mangaPosters = import.meta.glob<string>(
+  './assets/My fav Manga/*.webp',
+  { eager: true, import: 'default' },
+)
+const animeMoviePosters = import.meta.glob<string>(
+  './assets/My fav anime movie/*.webp',
+  { eager: true, import: 'default' },
+)
+const movieSeriesPosters = import.meta.glob<string>(
+  './assets/My fav series and movies/*.webp',
+  { eager: true, import: 'default' },
+)
+
+/* file names that were typed as shorthand, or that cannot hold a colon
+   because a colon in a file name is rejected over HTTP */
+const TITLE_FIXES: Record<string, string> = {
+  aot: 'Attack on Titan',
+  codegeass: 'Code Geass',
+  vinland: 'Vinland Saga',
+  'fullmetal alchemist brotherhood': 'Fullmetal Alchemist: Brotherhood',
+  'steins gate': 'Steins;Gate',
 }
 
-export const favoriteGames: Game[] = [
-  { name: 'Minecraft', url: 'https://www.minecraft.net', image: '/minecraft.webp' },
-  { name: 'Elden Ring', url: 'https://en.bandainamcoent.eu/elden-ring/elden-ring', image: '/elden%20ring.webp' },
-  { name: 'CS2', url: 'https://www.counter-strike.net/cs2', image: '/cs2.webp' },
-  { name: 'Subway Surfers', url: 'https://www.subwaysurfers.com', image: '/subway%20surfers.webp' },
-];
+const SMALL_WORDS = new Set([
+  'a', 'an', 'and', 'at', 'but', 'by', 'for', 'in', 'of', 'on', 'or', 'the', 'to', 'with',
+])
+
+function fileTitle(path: string) {
+  const file = (path.split('/').pop() ?? '').replace(/\.webp$/i, '')
+  const raw = file.replace(/[.\s]+$/, '').trim()
+  /* a whole name typed with hyphens or underscores stands in for spaces, but a
+     hyphen inside a name that already has spaces is part of the title */
+  const name = (raw.includes(' ') ? raw : raw.replace(/[-_]/g, ' '))
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  const fixed = TITLE_FIXES[name.toLowerCase()]
+  if (fixed) return fixed
+
+  return name
+    .split(' ')
+    .map((word, i) => {
+      if (word.length === 1) return word.toLowerCase() === 'i' ? 'I' : word
+      if (/[A-Z]/.test(word)) return word
+      if (i > 0 && SMALL_WORDS.has(word.toLowerCase())) return word.toLowerCase()
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    })
+    .join(' ')
+}
+
+export interface Favourite {
+  id: string
+  label: string
+  items: { title: string; image: string }[]
+}
+
+function posters(posters: Record<string, string>): Favourite['items'] {
+  return Object.entries(posters)
+    .map(([path, image]) => ({ title: fileTitle(path), image }))
+    .sort((a, b) => a.title.localeCompare(b.title))
+}
+
+export const favourites: Favourite[] = [
+  { id: 'anime', label: 'My fav Anime', items: posters(animePosters) },
+  { id: 'manga', label: 'My fav Manga', items: posters(mangaPosters) },
+  { id: 'anime-movie', label: 'My fav Anime Movie', items: posters(animeMoviePosters) },
+  {
+    id: 'movie-series',
+    label: 'My fav series and movies',
+    items: posters(movieSeriesPosters),
+  },
+]

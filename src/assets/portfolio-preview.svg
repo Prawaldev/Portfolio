@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750" role="img" aria-label="Wireframe preview of a dark minimal portfolio website">
+  <rect width="1200" height="750" fill="#07090d"/>
+  <rect x="24" y="24" width="1152" height="702" fill="none" stroke="#1b1f27" stroke-width="2"/>
+  <line x1="24" y1="74" x2="1176" y2="74" stroke="#1b1f27" stroke-width="2"/>
+  <text x="52" y="56" fill="#e8eaed" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" letter-spacing="1">PRAWAL</text>
+  <rect x="60" y="40" width="10" height="18" fill="#d8b64c"/>
+  <g fill="#2a303b">
+    <rect x="960" y="44" width="18" height="18"/>
+    <rect x="1030" y="44" width="18" height="18"/>
+    <rect x="1100" y="44" width="18" height="18"/>
+  </g>
+  <line x1="620" y1="74" x2="620" y2="726" stroke="#1b1f27" stroke-width="2"/>
+
+  <text x="60" y="132" fill="#6b7280" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" letter-spacing="2">HI, IM</text>
+  <text x="58" y="196" fill="#f2f3f5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="52" letter-spacing="1">PRAWAL KHADKA</text>
+  <rect x="470" y="158" width="16" height="42" fill="#d8b64c"/>
+  <text x="60" y="234" fill="#a7aeb8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="19">BCA Student | Aspiring Developer</text>
+  <g fill="#2f3641">
+    <rect x="60" y="262" width="420" height="14"/>
+    <rect x="60" y="290" width="330" height="14"/>
+  </g>
+  <rect x="60" y="332" width="186" height="46" fill="none" stroke="#d8b64c" stroke-width="2"/>
+  <text x="80" y="361" fill="#d8b64c" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" letter-spacing="1">VIEW PROJECTS</text>
+  <rect x="262" y="332" width="150" height="46" fill="none" stroke="#242a33" stroke-width="2"/>
+  <text x="282" y="361" fill="#c3c9d2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" letter-spacing="1">GITHUB</text>
+
+  <g fill="none" stroke="#1b1f27" stroke-width="2">
+    <rect x="60" y="424" width="520" height="266"/>
+    <rect x="620" y="424" width="520" height="126"/>
+    <rect x="620" y="564" width="520" height="126"/>
+  </g>
+  <text x="88" y="464" fill="#6b7280" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" letter-spacing="2">PROJECTS</text>
+  <g fill="#232a34">
+    <rect x="88" y="486" width="152" height="176"/>
+    <rect x="260" y="486" width="152" height="176"/>
+    <rect x="432" y="486" width="152" height="176"/>
+  </g>
+  <g fill="#4a5261">
+    <rect x="88" y="486" width="152" height="46"/>
+    <rect x="260" y="486" width="152" height="46"/>
+    <rect x="432" y="486" width="152" height="46"/>
+  </g>
+  <text x="648" y="464" fill="#6b7280" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" letter-spacing="2">ABOUT ME</text>
+  <g fill="#2a303b">
+    <rect x="648" y="484" width="420" height="12"/>
+    <rect x="648" y="508" width="360" height="12"/>
+  </g>
+  <text x="648" y="604" fill="#6b7280" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" letter-spacing="2">CONTACT</text>
+  <g fill="#2a303b">
+    <rect x="648" y="624" width="464" height="34"/>
+    <rect x="648" y="666" width="464" height="34"/>
+  </g>
+  <g fill="#4a5261">
+    <rect x="1060" y="634" width="36" height="14"/>
+    <rect x="1060" y="676" width="36" height="14"/>
+  </g>
+</svg>
