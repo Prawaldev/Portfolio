@@ -86,11 +86,24 @@ export const contactNotes = [
   '> Build with AI',
 ]
 
-export const realityCheckLines = [
-  "I'm not a professional web developer.",
-  "I'm a BCA student, still learning.",
-  "I use AI tools to help me build these websites\nbecause I don't have real personal skills yet.",
-  'These projects are part of my learning journey\nand a way to gain experience, improve, and\nbecome better at web development over time.',
+export interface Quote {
+  text: string
+  author: string
+}
+
+export const famousQuotes: Quote[] = [
+  { text: 'The only way to do great work is to love what you do.', author: 'Steve Jobs' },
+  { text: "It always seems impossible until it's done.", author: 'Nelson Mandela' },
+  { text: 'The best way to predict the future is to invent it.', author: 'Alan Kay' },
+  {
+    text: 'Success is not final, failure is not fatal: it is the courage to continue that counts.',
+    author: 'Winston Churchill',
+  },
+  {
+    text: 'The journey of a thousand miles begins with a single step.',
+    author: 'Lao Tzu',
+  },
+  { text: 'I have no special talent. I am only passionately curious.', author: 'Albert Einstein' },
 ]
 
 /* ---------------------------------------------------------------- favourites

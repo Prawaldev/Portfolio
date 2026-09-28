@@ -2,7 +2,7 @@ import { Hero } from './components/Hero'
 import { About } from './components/About'
 import { Projects } from './components/Projects'
 import { Contact } from './components/Contact'
-import { RealityCheck } from './components/RealityCheck'
+import { FamousQuotes } from './components/FamousQuotes'
 import { Favourites } from './components/Favourites'
 import { Footer } from './components/Footer'
 import { Reveal } from './components/Reveal'
@@ -35,7 +35,7 @@ export default function App() {
         </Reveal>
 
         <Reveal className="lg:col-span-12">
-          <RealityCheck />
+          <FamousQuotes />
         </Reveal>
 
         <Reveal className="lg:col-span-12">

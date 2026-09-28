@@ -67,7 +67,7 @@ The posters are not listed in the code. Each box globs its own folder in `src/as
 | About | `#about` |
 | Projects | `#projects` |
 | Contact (GitHub + Discord only, no email) | `#contact` |
-| `>_ Reality Check` terminal panel | — |
+| `>_ Famous Quotes` terminal panel | — |
 | Favourites (four boxes: anime, manga, anime movies, series and movies) | — |
 
 ## Accessibility
@@ -99,10 +99,11 @@ src/
   components/
     Navbar.tsx                anchor links, theme button
     Hero.tsx                  name, role, buttons
-    HeroIcon.tsx              icon-512 turning anticlockwise, ghost-copy motion blur
+    HeroIcon.tsx              icon-512 turning anticlockwise, ghost-copy motion blur,
+                              outline morphing circle <-> Material 3 expressive squircle
     BrandIcons.tsx            GitHub / Discord marks + external-link icon
     About.tsx  Projects.tsx  ProjectCard.tsx  Contact.tsx
-    RealityCheck.tsx          terminal panel on an inset background
+    FamousQuotes.tsx           quotes on an inset terminal background
     Favourites.tsx            four boxes, one open at a time (posters from src/assets)
     Reveal.tsx                fade-in on scroll (never hides content)
     Footer.tsx

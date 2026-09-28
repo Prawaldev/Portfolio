@@ -9,7 +9,7 @@ export function Favourites() {
   return (
     <section aria-labelledby="favourites-heading" className="panel flex flex-col">
       <p className="label">
-        <span className="prompt">05.</span> Favourites
+        <span className="prompt">06.</span> Favourites
       </p>
       <h2 id="favourites-heading" className="sr-only">
         Favourites
