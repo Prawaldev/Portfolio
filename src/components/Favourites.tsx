@@ -15,7 +15,7 @@ export function Favourites() {
         Favourites
       </h2>
 
-      <div className="mt-6 border border-[var(--line)] bg-[var(--void)]">
+      <div className="mt-6 overflow-hidden rounded-[var(--radius)] bg-[var(--void)]">
         <div className="grid grid-cols-2 border-b border-[var(--line)] sm:grid-cols-4">
           {favourites.map((group, i) => {
             const isOpen = group.id === open
@@ -66,7 +66,7 @@ export function Favourites() {
                     height={707}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-[5/7] w-full border border-[var(--line)] object-cover"
+                    className="aspect-[5/7] w-full object-cover"
                   />
                   <p className="mt-3 text-[0.78rem] leading-[1.6] text-[var(--ink-soft)]">
                     {item.title}

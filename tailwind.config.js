@@ -7,27 +7,29 @@ export default {
         mono: ['"Brass Mono Code"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       colors: {
-        /* pure black page, panels lift off it */
-        base: '#000000',
-        surface: '#0A0D12',
-        raised: '#0E1218',
-        sunken: '#10151C',
-        void: '#04060A',
+        /* mirrors the dark theme tokens in src/index.css — every colour on the
+           site actually flows through the CSS variables, these are for
+           one-off utilities only */
+        base: '#0F0F05',
+        surface: '#17160B',
+        raised: '#1B1A0F',
+        sunken: '#1F1E13',
+        void: '#121107',
         /* hairlines */
-        line: '#1B2027',
-        'line-soft': '#141920',
-        'line-bright': '#2B323C',
+        line: '#373522',
+        'line-soft': '#282614',
+        'line-bright': '#4E4C37',
         /* type */
-        ink: '#E9EBEE',
-        'ink-soft': '#BCC2CC',
-        'ink-dim': '#9BA5B3',
-        'ink-faint': '#8E9CAE',
+        ink: '#F8F4E1',
+        'ink-soft': '#D9D5C3',
+        'ink-dim': '#CBC7AD',
+        'ink-faint': '#AFAC92',
         /* accents */
-        amber: '#E0BE52',
-        'amber-dim': '#A8912F',
-        steel: '#97A7BA',
+        amber: '#F7B3EF',
+        'amber-dim': '#BA7CB4',
+        steel: '#A29F86',
         /* loud colour reserved for the small type */
-        signal: '#6FD3E8',
+        signal: '#D2D389',
       },
       maxWidth: {
         shell: '1320px',

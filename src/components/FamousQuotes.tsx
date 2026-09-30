@@ -11,7 +11,7 @@ export function FamousQuotes() {
         Famous Quotes
       </h2>
 
-      <div className="mt-8 flex-1 border border-[var(--line)] bg-[var(--void)] p-5 sm:p-7">
+      <div className="mt-8 flex-1 rounded-[var(--radius)] bg-[var(--void)] p-5 sm:p-7">
         <div className="grid gap-x-12 gap-y-9 lg:grid-cols-2">
           {famousQuotes.map((quote) => (
             <figure key={quote.text}>

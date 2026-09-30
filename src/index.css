@@ -23,56 +23,62 @@
    the sun button in the navbar flips to a light terminal.
    ========================================================================== */
 
+/* Palette: Material 3 Expressive (SchemeExpressive tonal palettes), mapped
+   onto the terminal's own token set. The page is pure black and the boxes are
+   dim black, so the layout reads by fill, not by outline — `--line` is left
+   for hairlines and dividers only. Token names are legacy: `--amber` and
+   `--signal` now both hold the expressive purple. */
 :root {
   --bg: #000000;
-  --surface: #0a0d12;
-  --surface-raised: #0e1218;
-  --surface-sunken: #10151c;
+  --surface: #0a0a0a;
+  --surface-raised: #0f0f0f;
+  --surface-sunken: #141414;
   /* inset blocks (terminal window, image badge) sit *below* the panel */
-  --void: #04060a;
-  --line: #1b2027;
-  --line-soft: #141920;
-  --line-bright: #2b323c;
-  --ink: #e9ebee;
-  --ink-soft: #bcc2cc;
-  --ink-dim: #9ba5b3;
-  /* the smallest text gets its own cool grey so it never merges with the panel */
-  --ink-faint: #8e9cae;
-  --amber: #e0be52;
-  --amber-dim: #a8912f;
-  --steel: #97a7ba;
-  /* the small type — labels, tags, meta — gets its own loud colour so it
-     never disappears into the pure black background */
-  --signal: #6fd3e8;
-  --signal-dim: #3d9db6;
+  --void: #050505;
+  --line: #262626;
+  --line-soft: #1a1a1a;
+  --line-bright: #3d3d3d;
+  /* everything soft-edged by the same amount */
+  --radius: 8px;
+  --ink: #f8f4e1;
+  --ink-soft: #d9d5c3;
+  --ink-dim: #cbc7ad;
+  /* the smallest text gets its own dim grey so it never merges with the panel */
+  --ink-faint: #afac92;
+  --amber: #f7b3ef;
+  --amber-dim: #ba7cb4;
+  --steel: #a29f86;
+  /* the small type and the small icons — labels, tags, meta, glyphs */
+  --signal: #f7b3ef;
+  --signal-dim: #c98ec6;
   --github: #ffffff;
   --discord: #5865f2;
-  --selection: #e0be52;
+  --selection: #f7b3ef;
   --selection-ink: #000000;
 }
 
 [data-theme='light'] {
-  --bg: #eeeeea;
-  --surface: #fbfbf9;
+  --bg: #f0ece0;
+  --surface: #fdfbf0;
   --surface-raised: #ffffff;
-  --surface-sunken: #f2f2ef;
-  --void: #e4e4de;
-  --line: #d7d7d0;
-  --line-soft: #e5e5df;
-  --line-bright: #bab9b1;
-  --ink: #0f1216;
-  --ink-soft: #3a404a;
-  --ink-dim: #474d57;
-  --ink-faint: #4f5a66;
-  --amber: #7a5f0c;
-  --amber-dim: #a68a2c;
-  --steel: #46525f;
-  --signal: #0b6a82;
-  --signal-dim: #5a99a8;
+  --surface-sunken: #f6f2e6;
+  --void: #e8e3d4;
+  --line: #ddd8c9;
+  --line-soft: #eae5d8;
+  --line-bright: #c2bca8;
+  --ink: #0f0f05;
+  --ink-soft: #3f3e31;
+  --ink-dim: #494733;
+  --ink-faint: #6e6b55;
+  --amber: #683366;
+  --amber-dim: #f4b1ec;
+  --steel: #7a7861;
+  --signal: #683366;
+  --signal-dim: #7a4d77;
   --github: #181717;
   --discord: #5865f2;
-  --selection: #7a5f0c;
-  --selection-ink: #fbfbf9;
+  --selection: #683366;
+  --selection-ink: #fdfbf0;
 }
 
 @tailwind base;
@@ -138,16 +144,16 @@
     margin-inline: auto;
   }
 
-  /* every panel is a 1px bordered box on the near-black surface */
+  /* every panel is a soft-edged box: fill alone separates it from the page */
   .panel {
     background-color: var(--surface);
-    border: 1px solid var(--line);
+    border-radius: var(--radius);
     padding: clamp(1.5rem, 2.6vw, 2.6rem);
   }
 
   .panel-tight {
     background-color: var(--surface);
-    border: 1px solid var(--line);
+    border-radius: var(--radius);
     padding: clamp(1.25rem, 2vw, 1.8rem);
   }
 
@@ -189,54 +195,18 @@
     padding: 0.8rem 1.25rem;
     font-size: 0.82rem;
     letter-spacing: 0.04em;
-    border: 1px solid var(--line-bright);
-    background-color: transparent;
+    background-color: var(--surface-sunken);
     color: var(--ink);
-    border-radius: 2px;
-    transition:
-      border-color 0.2s ease,
-      color 0.2s ease,
-      background-color 0.2s ease,
-      transform 0.2s ease;
-  }
-
-  .btn:hover {
-    border-color: var(--ink-dim);
-    background-color: var(--surface-raised);
-    transform: translateY(-2px);
+    border-radius: var(--radius);
   }
 
   .btn-accent {
-    border-color: var(--amber-dim);
+    background-color: var(--surface-sunken);
     color: var(--amber);
   }
 
-  .btn-accent:hover {
-    border-color: var(--amber);
-    background-color: var(--surface-raised);
-    color: var(--amber);
-  }
 
   /* ---------- small parts ---------- */
-
-  .tag {
-    display: inline-block;
-    padding: 0.22rem 0.6rem;
-    font-size: 0.73rem;
-    letter-spacing: 0.06em;
-    color: var(--signal);
-    background-color: var(--surface-sunken);
-    border: 1px solid var(--signal-dim);
-    border-radius: 2px;
-    transition:
-      color 0.2s ease,
-      border-color 0.2s ease;
-  }
-
-  .tag:hover {
-    color: var(--ink);
-    border-color: var(--line-bright);
-  }
 
   .hairline {
     height: 1px;

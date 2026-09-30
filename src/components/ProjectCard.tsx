@@ -8,7 +8,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
   return (
-    <article className="group flex flex-col border border-[var(--line)] bg-[var(--surface-raised)] transition-[transform,border-color] duration-300 ease-terminal hover:-translate-y-1 hover:border-[var(--line-bright)]">
+    <article className="flex flex-col overflow-hidden rounded-[var(--radius)] bg-[var(--surface-raised)]">
       {/* website preview */}
       <a
         href={project.live}
@@ -25,9 +25,9 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           height={750}
           loading="lazy"
           decoding="async"
-          className="aspect-[16/10] w-full object-cover object-top opacity-85 transition-opacity duration-300 group-hover:opacity-100"
+          className="aspect-[16/10] w-full object-cover object-top"
         />
-        <span className="absolute left-0 top-0 border-b border-r border-[var(--signal-dim)] bg-[var(--void)] px-2 py-1 text-[0.72rem] tracking-[0.1em] text-[var(--signal)]">
+        <span className="absolute left-0 top-0 bg-[var(--void)] px-2 py-1 text-[0.72rem] tracking-[0.1em] text-[var(--signal)]">
           0{index + 1}
         </span>
       </a>
@@ -39,20 +39,12 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           {project.description}
         </p>
 
-        <ul className="mt-5 flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <li key={tag} className="tag">
-              {tag}
-            </li>
-          ))}
-        </ul>
-
         <div className="mt-6 flex items-center justify-between border-t border-[var(--line)] pt-4">
           <a
             href={project.live}
             target="_blank"
             rel="noreferrer"
-            className="grid h-8 w-8 place-items-center border border-[var(--line)] text-[var(--signal)] transition-colors duration-200 hover:border-[var(--signal)] hover:text-[var(--ink)]"
+            className="grid h-8 w-8 place-items-center rounded-[var(--radius)] text-[var(--signal)]"
             title="View project"
             aria-label={`Open ${project.title} live site (new tab)`}
           >
@@ -62,7 +54,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             href={project.repo}
             target="_blank"
             rel="noreferrer"
-            className="grid h-8 w-8 place-items-center border border-[var(--line)] text-[var(--github)] transition-colors duration-200 hover:border-[var(--signal)] hover:text-[var(--ink)]"
+            className="grid h-8 w-8 place-items-center rounded-[var(--radius)] text-[var(--github)]"
             title="View source"
             aria-label={`View ${project.title} source code on GitHub (new tab)`}
           >

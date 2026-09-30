@@ -1,5 +1,6 @@
 import { Navbar } from './Navbar'
 import { HeroIcon } from './HeroIcon'
+import { GithubIcon } from './BrandIcons'
 import { profile } from '../data'
 
 const GITHUB_URL = 'https://github.com/Prawaldev'
@@ -37,7 +38,7 @@ export function Hero() {
             className="btn"
             aria-label="Open Prawal Khadka on GitHub (new tab)"
           >
-            <span aria-hidden="true">◉</span> GitHub
+            <GithubIcon size={16} /> GitHub
           </a>
         </div>
 

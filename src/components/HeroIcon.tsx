@@ -16,43 +16,96 @@ const GHOSTS = [
 
 /* -------------------------------------------------------------- shape morph
    the png is a disc painted edge to edge, so the outline has to come from a
-   clip. both shapes are sampled at the same angles and written out as the
-   same number of cubic segments, so the turn between them is nothing but
-   numbers lerped from one outline to the other. */
+   clip. every shape below is written as "how far from the middle is the edge at
+   this angle", and they are all sampled at the same angles into the same number
+   of points, so the turn between any two of them is nothing but numbers lerped
+   from one outline to the other — the path itself morphs, nothing is scaled,
+   turned or swapped out. */
 
 type Pt = [number, number]
+/** Distance from the middle of the artwork out to its edge, at an angle. */
+type Shape = (angle: number) => number
 
 const SIZE = 512
 const MID = SIZE / 2
-/* the circle state sits a hair outside the artwork, so at rest the edge you
-   see is the artwork's own, and the expressive state tucks just inside it:
-   a squircle is always wider than its circle at the corners, and there is no
-   artwork out there to fill them */
-const CIRCLE_R = 258
-const EXPRESSIVE_R = 222
-/* superellipse power: 2 is a circle, 3.2 is the fuller, softer square that
-   Material 3 Expressive leans on */
-const EXPRESSIVE_N = 3.2
-/* how far past the target the spring is allowed to go, so the settle has
-   something to come back from */
-const OVERSHOOT = 1.18
-const POINTS = 20
-const STEPS = 120
-/* ms for one circle -> expressive -> circle pass */
-const CYCLE = 18000
+/* one point every 15°: enough that the circle stays smooth, few enough that the
+   hexagon's corners land exactly on samples */
+const POINTS = 24
 
-/** Points of a superellipse, one every POINTS/NTH of the turn. */
-function outline(r: number, n: number): Pt[] {
-  return Array.from({ length: POINTS }, (_, i) => {
-    const t = (i / POINTS) * Math.PI * 2
-    const c = Math.abs(Math.cos(t))
-    const s = Math.abs(Math.sin(t))
-    const k = (c ** n + s ** n) ** (-1 / n)
-    return [MID + r * k * Math.cos(t), MID + r * k * Math.sin(t)]
-  })
+/** The rest state, a hair outside the artwork, so at rest the edge you see is
+    the artwork's own. Every other shape stays inside that edge, or the clip
+    would show empty corners. */
+const circle: Shape = () => 258
+
+/* wider than it is tall */
+const OVAL_X = 250
+const OVAL_Y = 186
+const oval: Shape = (t) =>
+  (OVAL_X * OVAL_Y) / Math.hypot(OVAL_Y * Math.cos(t), OVAL_X * Math.sin(t))
+
+/* a rounded rectangle is a rectangle with its corners rounded off by a disc, so
+   along any angle the edge is either a straight side or that disc: the sides
+   hold until the ray passes the end of one, and past that it is the corner's
+   circle to solve for */
+const ROUND_W = 440
+const ROUND_H = 356
+const ROUND_R = 76
+const rounded: Shape = (t) => {
+  const c = Math.abs(Math.cos(t))
+  const s = Math.abs(Math.sin(t))
+  /* the rectangle the corner disc is centred on */
+  const ax = ROUND_W / 2 - ROUND_R
+  const ay = ROUND_H / 2 - ROUND_R
+  let edge = Infinity
+
+  if (c > 0) {
+    const r = ROUND_W / 2 / c
+    if (r * s <= ay) edge = r
+  }
+  if (s > 0) {
+    const r = ROUND_H / 2 / s
+    if (r * c <= ax) edge = Math.min(edge, r)
+  }
+
+  const cd = ax * c + ay * s
+  const disc = cd * cd - (ax * ax + ay * ay - ROUND_R * ROUND_R)
+  if (disc >= 0) {
+    const r = cd + Math.sqrt(disc)
+    if (r * c >= ax && r * s >= ay) edge = Math.min(edge, r)
+  }
+
+  return edge
 }
 
+/* a hexagon is a circle's worth of angle cut into six flats, so the edge is the
+   apothem over how far off the middle of the nearest side the ray is */
+const HEX_APOTHEM = 216
+const HEX_SIDE = Math.PI / 3
+const hexagon: Shape = (t) => {
+  const off = ((((t + HEX_SIDE / 2) % HEX_SIDE) + HEX_SIDE) % HEX_SIDE) - HEX_SIDE / 2
+  return HEX_APOTHEM / Math.cos(off)
+}
+
+/* the loop, in order: round, then stretched, then squared off, then cut into
+   six, and back round again */
+const SHAPES = [circle, oval, rounded, hexagon]
+const LEGS = SHAPES.length
+
+/* -------------------------------------------------------------- the motion
+   Material 3 expressive springs are under-damped, so the outline sails past the
+   shape it was sent to and comes back instead of easing to a stop. The target
+   is the next shape in the loop, and it moves on at the top of the swing, so
+   the morph is always on its way somewhere: no cycle to wait out, no hold in
+   the turn. */
+const STIFFNESS = 55
+const DAMPING_RATIO = 0.5
+const DAMPING = 2 * DAMPING_RATIO * Math.sqrt(STIFFNESS)
+/* explicit integration goes unstable past a fraction of the period, so the
+   frame is taken in small bites */
+const SUBSTEPS = 4
+
 const round = (v: number) => Math.round(v * 10) / 10
+const mix = (a: number, b: number, u: number) => a + (b - a) * u
 
 /** Closed catmull-rom spline, written as the cubics a path takes. */
 function pathOf(points: Pt[]): string {
@@ -77,49 +130,38 @@ function pathOf(points: Pt[]): string {
   return `${d}Z`
 }
 
-const CIRCLE = outline(CIRCLE_R, 2)
-const EXPRESSIVE = outline(EXPRESSIVE_R, EXPRESSIVE_N)
-
-/* every frame of the turn, built once: the loop only picks a path */
-const PATHS = Array.from({ length: STEPS + 1 }, (_, i) => {
-  const t = (i / STEPS) * OVERSHOOT
-  return pathOf(CIRCLE.map((p, k) => [p[0] + (EXPRESSIVE[k][0] - p[0]) * t, p[1] + (EXPRESSIVE[k][1] - p[1]) * t]))
-})
-
-/* the expressive timing: a quick rise that overshoots, a beat to settle onto
-   the shape, a hold, then a slower, softer way back to the circle */
-const KEYS: [number, number][] = [
-  [0, 0],
-  [0.28, 0],
-  [0.42, OVERSHOOT],
-  [0.52, 1],
-  [0.68, 1],
-  [0.86, 0],
-  [1, 0],
-]
-const EASES = ['linear', 'out', 'inout', 'linear', 'inout', 'linear']
-
-function ease(kind: string, x: number) {
-  if (kind === 'out') return 1 - (1 - x) ** 3
-  if (kind === 'inout') return x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2
-  return x
+/** A shape's points, one every POINTS-th of the turn. */
+function pointsOf(shape: Shape): Pt[] {
+  return Array.from({ length: POINTS }, (_, i) => {
+    const t = (i / POINTS) * Math.PI * 2
+    const r = shape(t)
+    return [MID + r * Math.cos(t), MID + r * Math.sin(t)]
+  })
 }
 
-/** How far along the morph this moment is, 0 = circle, 1 = expressive. */
-function shapeAt(clock: number) {
-  const u = ((((clock % CYCLE) + CYCLE) % CYCLE) / CYCLE)
-  let i = KEYS.findIndex((key, k) => k > 0 && key[0] >= u)
-  if (i < 0) i = KEYS.length - 1
+/* every shape sampled once, in the order the loop runs them */
+const OUTLINES = SHAPES.map(pointsOf)
 
-  const [ua, ta] = KEYS[i - 1]
-  const [ub, tb] = KEYS[i]
-  const raw = ub === ua ? 0 : (u - ua) / (ub - ua)
+/** The loop is round, so a leg past the last shape is on into the first. */
+const wrap = (leg: number) => ((leg % LEGS) + LEGS) % LEGS
 
-  return ta + (tb - ta) * ease(EASES[i - 1], raw)
+/** The outline anywhere in the loop: `at` counts shapes, so 0 is the circle, 1
+    the oval, 2 the rounded rectangle, 3 the hexagon, and 4 is the circle
+    again. A quarter of the way along a leg is a quarter of the way between the
+    two outlines. */
+function pathAt(at: number): string {
+  const leg = Math.floor(at)
+  const u = at - leg
+  const from = OUTLINES[wrap(leg)]
+  const into = OUTLINES[wrap(leg + 1)]
+  return pathOf(from.map((p, k): Pt => [mix(p[0], into[k][0], u), mix(p[1], into[k][1], u)]))
 }
+
+/* what the icon shows before the first frame lands on it */
+const REST = pathAt(0)
 
 /** The site icon, turning anticlockwise in the same box the hologram used,
-    its outline morphing between a circle and an expressive squircle. */
+    its outline springing from shape to shape through the loop. */
 export function HeroIcon({ className = '' }: { className?: string }) {
   const box = useRef<HTMLDivElement>(null)
   const spinner = useRef<HTMLDivElement>(null)
@@ -136,7 +178,14 @@ export function HeroIcon({ className = '' }: { className?: string }) {
     let angle = 0
     let lean = 0
     let wantX = 0
-    let clock = 0
+    /* where the outline is in the loop, in shapes: 0 circle, 1 oval, 2 rounded
+       rectangle, 3 hexagon — and which way it is travelling, and whether it is
+       already past the shape it was sent to */
+    let morphAt = 0
+    let morphTo = 1
+    let morphVel = 0
+    let morphDir = 1
+    let swung = false
     let last = performance.now()
     let raf = 0
 
@@ -149,19 +198,50 @@ export function HeroIcon({ className = '' }: { className?: string }) {
       /* css rotate() grows clockwise, so the falling angle is the anticlockwise turn */
       disc.style.transform = `rotateX(${lean.toFixed(2)}deg) rotate(${angle.toFixed(2)}deg)`
 
-      const step = Math.max(0, Math.min(STEPS, Math.round((shapeAt(clock) / OVERSHOOT) * STEPS)))
-      outlinePath.setAttribute('d', PATHS[step])
+      outlinePath.setAttribute('d', pathAt(morphAt))
+    }
+
+    /* the outline's own spring, pulled towards the shape it is headed for and
+       kicked back by its own speed. it is under-damped on purpose: it sails
+       past that shape, turns at the top of the swing, and the next shape in the
+       loop becomes the target — the overshoot is the expressive part, and the
+       turn is what keeps it going without a pause */
+    const morph = (dt: number) => {
+      const h = dt / SUBSTEPS
+      for (let i = 0; i < SUBSTEPS; i++) {
+        morphVel += ((morphTo - morphAt) * STIFFNESS - morphVel * DAMPING) * h
+        morphAt += morphVel * h
+
+        /* past the shape it was sent to and still going that way, so the swing
+           is under way */
+        if (morphVel * morphDir > 0 && (morphAt - morphTo) * morphDir >= 0) swung = true
+        /* the turn is at the top of the swing, where the spring stops pushing */
+        if (swung && morphVel * morphDir <= 0) {
+          morphTo += 1
+          morphDir = -morphDir
+          swung = false
+        }
+      }
+
+      /* the loop is a round one, so once round the counter is wrapped back into
+         it — the target goes with it, which leaves the spring exactly where it
+         was and the shape on screen exactly where it was too */
+      if (morphAt >= LEGS || morphAt < 0) {
+        const shift = Math.floor(morphAt / LEGS) * LEGS
+        morphAt -= shift
+        morphTo -= shift
+      }
     }
 
     const frame = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05)
       last = now
-      clock += dt * 1000
 
       /* the turn falls anticlockwise; the cursor can speed it up on the right
          and slow it on the left, and the icon leans towards the pointer */
       angle -= SPIN * (1 + wantX * 0.5) * dt
       lean += (wantX * MAX_LEAN * 0.55 - lean) * Math.min(dt * 6, 1)
+      morph(dt)
       paint()
 
       raf = window.requestAnimationFrame(frame)
@@ -182,7 +262,13 @@ export function HeroIcon({ className = '' }: { className?: string }) {
       stop()
       /* reduced motion means the turn does not run, so the outline has to be
          back at rest too — otherwise the icon freezes half morphed */
-      if (reduce.matches) clock = 0
+      if (reduce.matches) {
+        morphAt = 0
+        morphTo = 1
+        morphVel = 0
+        morphDir = 1
+        swung = false
+      }
       if (onScreen && !document.hidden) {
         start()
       } else {
@@ -232,7 +318,7 @@ export function HeroIcon({ className = '' }: { className?: string }) {
           <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-full w-full">
             <defs>
               <clipPath id={clipId}>
-                <path ref={shape} d={PATHS[0]} />
+                <path ref={shape} d={REST} />
               </clipPath>
             </defs>
 

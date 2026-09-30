@@ -39,7 +39,7 @@ export function Navbar() {
         onClick={toggleTheme}
         aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
         title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-        className="ml-auto grid h-9 w-9 place-items-center border border-[var(--line)] bg-transparent text-[var(--ink-dim)] transition-colors duration-200 hover:border-[var(--amber)] hover:text-[var(--amber)]"
+        className="ml-auto grid h-9 w-9 place-items-center rounded-[var(--radius)] bg-transparent text-[var(--signal)] transition-colors duration-200 hover:text-[var(--amber)]"
       >
         {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
       </button>

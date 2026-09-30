@@ -83,7 +83,6 @@ export const contactNotes = [
   '> Check my GitHub',
   '> Add me on Discord',
   '> Casual chatting',
-  '> Build with AI',
 ]
 
 export interface Quote {
