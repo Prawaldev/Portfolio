@@ -1,6 +1,6 @@
 import animeWikiShot from './assets/anime-wiki.webp'
 import directoryShot from './assets/directory.webp'
-import portfolioShot from './assets/portfolio-preview.svg'
+import pokedexShot from './assets/pokedex.png'
 
 export const profile = {
   name: 'Prawal Khadka',
@@ -39,12 +39,12 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    title: 'Portfolio Website',
-    description: 'My personal portfolio with a clean, minimalist design and interactive elements.',
-    tags: ['HTML', 'CSS', 'JS', 'AI'],
-    preview: portfolioShot,
-    live: 'https://prawal.is-a.dev',
-    repo: 'https://github.com/Prawaldev/Portfolio',
+    title: 'Pokedex',
+    description: 'A simple Pokedex application built with React and TypeScript.',
+    tags: ['React', 'TypeScript', 'Vite'],
+    preview: pokedexShot,
+    live: 'https://prawaldev.github.io/Pokedex/',
+    repo: 'https://github.com/Prawaldev/Pokedex',
   },
   {
     title: 'Anime Wiki',
