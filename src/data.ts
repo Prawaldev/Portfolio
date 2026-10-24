@@ -1,6 +1,7 @@
 import animeWikiShot from './assets/anime-wiki.webp'
 import directoryShot from './assets/directory.webp'
 import pokedexShot from './assets/pokedex.png'
+import pokedexFavicon from '/favicon.svg'
 
 export const profile = {
   name: 'Prawal Khadka',
@@ -35,6 +36,7 @@ export interface Project {
   preview: string
   live: string
   repo: string
+  apk?: string
 }
 
 export const projects: Project[] = [
@@ -53,6 +55,15 @@ export const projects: Project[] = [
     preview: animeWikiShot,
     live: 'https://Prawaldev.github.io/anime-wiki',
     repo: 'https://github.com/Prawaldev/anime-wiki',
+  },
+  {
+    title: 'Pokedex APK',
+    description: 'Android APK build of the Pokedex application.',
+    tags: ['React', 'TypeScript', 'Android'],
+    preview: pokedexFavicon,
+    live: 'https://prawaldev.github.io/Pokedex/',
+    repo: 'https://github.com/Prawaldev/Pokedex',
+    apk: 'https://github.com/Prawaldev/Pokedex/releases/latest',
   },
   {
     title: 'Pirated Lib',

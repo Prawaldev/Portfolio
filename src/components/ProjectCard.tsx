@@ -21,11 +21,15 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         <img
           src={project.preview}
           alt=""
-          width={1200}
-          height={750}
+          width={project.title === 'Pokedex APK' ? 512 : 1200}
+          height={project.title === 'Pokedex APK' ? 512 : 750}
           loading="lazy"
           decoding="async"
-          className="aspect-[16/10] w-full object-cover object-top"
+          className={
+            project.title === 'Pokedex APK'
+              ? 'aspect-[16/10] w-full h-full object-contain bg-[var(--surface)] p-4'
+              : 'aspect-[16/10] w-full object-cover object-top'
+          }
         />
         <span className="absolute left-0 top-0 bg-[var(--void)] px-2 py-1 text-[0.72rem] tracking-[0.1em] text-[var(--signal)]">
           0{index + 1}
@@ -50,6 +54,18 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           >
             <ExternalLinkIcon size={15} />
           </a>
+          {project.apk && (
+            <a
+              href={project.apk}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-accent !px-3 !py-1.5 !text-[0.75rem]"
+              title="Download APK"
+              aria-label={`Download ${project.title} APK (new tab)`}
+            >
+              <span aria-hidden="true">↓</span> Download APK
+            </a>
+          )}
           <a
             href={project.repo}
             target="_blank"
