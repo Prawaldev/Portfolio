@@ -1,40 +1,16 @@
-import animeWikiShot from './assets/anime-wiki.webp'
-import directoryShot from './assets/directory.webp'
-import pokedexShot from './assets/pokedex.png'
-import pokedexFavicon from '/favicon.svg'
-
 export const profile = {
   name: 'Prawal Khadka',
-  role: 'BCA Student | Aspiring Developer',
-  /* the em dash in the tagline is drawn as a hairline, so it is split out */
-  tagline: {
-    before: 'Exploring the digital world, one project at a time. Learning, building, improving',
-    after: 'with the help of AI.',
-  },
-  heroNote: 'Currently learning. Building for experience.',
+  pronouns: 'he/him',
+  welcome: "Welcome to my page! I'm Prawaldev, a passionate web developer and anime enthusiast. I love creating interactive web applications and exploring the world of anime and manga.",
 }
 
-export const sectionIds = ['home', 'about', 'projects', 'contact'] as const
-
-export const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
-]
-
-export const facts = [
-  { icon: '◇', text: 'BCA Student (1st Semester)' },
-  { icon: '▣', text: 'Always Learning' },
-  { icon: '</>', text: 'Anime, Tech, Linux, Android' },
-]
+/* ------------------------------------------------------------------ projects */
 
 export interface Project {
   title: string
   description: string
-  tags: string[]
-  preview: string
-  live: string
+  /** live site — the card title links here when there is one */
+  site?: string
   repo: string
   apk?: string
 }
@@ -42,78 +18,54 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: 'Pokedex',
-    description: 'A simple Pokedex application built with React and TypeScript.',
-    tags: ['React', 'TypeScript', 'Vite'],
-    preview: pokedexShot,
-    live: 'https://prawaldev.github.io/Pokedex/',
+    description: 'A little place to explore Pokémon. Browse Pokémon, search by name or Pokédex number, and open individual pages to learn more about each one.',
+    site: 'https://prawaldev.github.io/Pokedex/',
     repo: 'https://github.com/Prawaldev/Pokedex',
   },
   {
     title: 'Anime Wiki',
-    description: 'An anime information website with search and details using Jikan API + Wikipedia.',
-    tags: ['React', 'TypeScript', 'Vite'],
-    preview: animeWikiShot,
-    live: 'https://Prawaldev.github.io/anime-wiki',
+    description: ' An intuitive anime wiki experience that makes discovering and accessing structured information fast, simple, and distraction-free.',
+    site: 'https://prawaldev.github.io/anime-wiki',
     repo: 'https://github.com/Prawaldev/anime-wiki',
   },
   {
-    title: 'Pokedex APK',
-    description: 'Android APK build of the Pokedex application.',
-    tags: ['React', 'TypeScript', 'Android'],
-    preview: pokedexFavicon,
-    live: 'https://prawaldev.github.io/Pokedex/',
-    repo: 'https://github.com/Prawaldev/Pokedex',
-    apk: 'https://github.com/Prawaldev/Pokedex/releases/latest',
+    title: 'CAFS',
+    description: 'A curated index of anime, manga, reading, gaming and tool resources on the internet.',
+    site: 'https://prawaldev.github.io/CAFS/',
+    repo: 'https://github.com/Prawaldev/CAFS',
   },
   {
-    title: 'Pirated Lib',
-    description: 'A large directory-style website with 11k+ entries (learning project).',
-    tags: ['React', 'TypeScript', 'API'],
-    preview: directoryShot,
-    live: 'https://prawaldev.github.io/Pirated-Lib/',
-    repo: 'https://github.com/Prawaldev/Pirated-Lib',
+    title: 'Pokedex APK',
+    description: 'Android build of the Pokedex application, packaged as an APK.',
+    repo: 'https://github.com/Prawaldev/Pokedex',
+    apk: 'https://github.com/Prawaldev/Pokedex/releases/latest',
+    site: 'https://github.com/Prawaldev/Pokedex/releases/latest'
   },
 ]
 
-export const socials = [
+/* ------------------------------------------------------------------- contact */
+
+export interface Social {
+  label: string
+  handle: string
+  /** where the card links to — null for Discord, which has no profile links */
+  href: string | null
+  brand: 'github' | 'discord'
+}
+
+export const socials: Social[] = [
   {
     label: 'GitHub',
-    handle: 'github.com/Prawaldev',
+    handle: 'Prawaldev',
     href: 'https://github.com/Prawaldev',
-    brand: 'github' as const,
+    brand: 'github',
   },
   {
     label: 'Discord',
     handle: '6bpr',
-    href: 'https://discord.com/users/6bpr',
-    brand: 'discord' as const,
+    href: null,
+    brand: 'discord',
   },
-]
-
-export const contactNotes = [
-  '> Check my GitHub',
-  '> Add me on Discord',
-  '> Casual chatting',
-]
-
-export interface Quote {
-  text: string
-  author: string
-}
-
-export const famousQuotes: Quote[] = [
-  { text: 'The only way to do great work is to love what you do.', author: 'Steve Jobs' },
-  { text: "It always seems impossible until it's done.", author: 'Nelson Mandela' },
-  { text: 'The best way to predict the future is to invent it.', author: 'Alan Kay' },
-  {
-    text: 'Success is not final, failure is not fatal: it is the courage to continue that counts.',
-    author: 'Winston Churchill',
-  },
-  {
-    text: 'The journey of a thousand miles begins with a single step.',
-    author: 'Lao Tzu',
-  },
-  { text: 'I have no special talent. I am only passionately curious.', author: 'Albert Einstein' },
 ]
 
 /* ---------------------------------------------------------------- favourites
@@ -180,19 +132,15 @@ export interface Favourite {
   items: { title: string; image: string }[]
 }
 
-function posters(posters: Record<string, string>): Favourite['items'] {
-  return Object.entries(posters)
+function posters(folder: Record<string, string>): Favourite['items'] {
+  return Object.entries(folder)
     .map(([path, image]) => ({ title: fileTitle(path), image }))
     .sort((a, b) => a.title.localeCompare(b.title))
 }
 
 export const favourites: Favourite[] = [
-  { id: 'anime', label: 'My fav Anime', items: posters(animePosters) },
-  { id: 'manga', label: 'My fav Manga', items: posters(mangaPosters) },
-  { id: 'anime-movie', label: 'My fav Anime Movie', items: posters(animeMoviePosters) },
-  {
-    id: 'movie-series',
-    label: 'My fav series and movies',
-    items: posters(movieSeriesPosters),
-  },
+  { id: 'anime', label: 'Anime', items: posters(animePosters) },
+  { id: 'manga', label: 'Manga', items: posters(mangaPosters) },
+  { id: 'anime-movie', label: 'Anime Movies', items: posters(animeMoviePosters) },
+  { id: 'movie-series', label: 'Series & Movies', items: posters(movieSeriesPosters) },
 ]

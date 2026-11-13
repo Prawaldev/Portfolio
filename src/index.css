@@ -1,324 +1,297 @@
 /* ==========================================================================
-   Brass Mono Code — self hosted (SIL OFL 1.1)
+   Ticketing — pixel font, self hosted
    ========================================================================== */
 
 @font-face {
-  font-family: 'Brass Mono Code';
-  src: url('/fonts/BrassMonoCode-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Brass Mono Code';
-  src: url('/fonts/BrassMonoCode-Bold.ttf') format('truetype');
-  font-weight: 700;
+  font-family: 'Ticketing';
+  src: url('/fonts/Ticketing.woff2') format('woff2');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 /* ==========================================================================
-   Theme tokens — dark is the default identity of the site,
-   the sun button in the navbar flips to a light terminal.
+   Tokens
    ========================================================================== */
 
-/* Palette: Material 3 Expressive (SchemeExpressive tonal palettes), mapped
-   onto the terminal's own token set. The page is pure black and the boxes are
-   dim black, so the layout reads by fill, not by outline — `--line` is left
-   for hairlines and dividers only. Token names are legacy: `--amber` and
-   `--signal` now both hold the expressive purple. */
 :root {
-  --bg: #000000;
-  --surface: #0a0a0a;
-  --surface-raised: #0f0f0f;
-  --surface-sunken: #141414;
-  /* inset blocks (terminal window, image badge) sit *below* the panel */
-  --void: #050505;
-  --line: #262626;
-  --line-soft: #1a1a1a;
-  --line-bright: #3d3d3d;
-  /* everything soft-edged by the same amount */
-  --radius: 8px;
-  --ink: #f8f4e1;
-  --ink-soft: #d9d5c3;
-  --ink-dim: #cbc7ad;
-  /* the smallest text gets its own dim grey so it never merges with the panel */
-  --ink-faint: #afac92;
-  --amber: #f7b3ef;
-  --amber-dim: #ba7cb4;
-  --steel: #a29f86;
-  /* the small type and the small icons — labels, tags, meta, glyphs */
-  --signal: #f7b3ef;
-  --signal-dim: #c98ec6;
-  --github: #ffffff;
-  --discord: #5865f2;
-  --selection: #f7b3ef;
-  --selection-ink: #000000;
+  /* the page — warm cream */
+  --bg: #f5e9d7;
+  /* the boxes, and the text that sits on them — cocoa with cream ink */
+  --panel: #4a342a;
+  --panel-ink: #f5e9d7;
+  /* plain text on the page itself — deep warm brown */
+  --ink: #3e2b21;
+  /* links are the one loud colour — honey gold on cocoa */
+  --link: #e9b44c;
+  /* terracotta, for small accents sitting straight on the cream page */
+  --accent: #a55322;
 }
 
-[data-theme='light'] {
-  --bg: #f0ece0;
-  --surface: #fdfbf0;
-  --surface-raised: #ffffff;
-  --surface-sunken: #f6f2e6;
-  --void: #e8e3d4;
-  --line: #ddd8c9;
-  --line-soft: #eae5d8;
-  --line-bright: #c2bca8;
-  --ink: #0f0f05;
-  --ink-soft: #3f3e31;
-  --ink-dim: #494733;
-  --ink-faint: #6e6b55;
-  --amber: #683366;
-  --amber-dim: #f4b1ec;
-  --steel: #7a7861;
-  --signal: #683366;
-  --signal-dim: #7a4d77;
-  --github: #181717;
-  --discord: #5865f2;
-  --selection: #683366;
-  --selection-ink: #fdfbf0;
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: 'Ticketing', serif;
+  font-size: large;
+}
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-    /* keeps anchored panels from hiding under the top of the viewport */
-    scroll-padding-top: 2rem;
-    -webkit-text-size-adjust: 100%;
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+}
+
+a {
+  color: var(--link);
+}
+
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+/* the buttons sit straight on the cream page, where honey gold is too pale
+   for an outline — terracotta reads there */
+.styledbutton:focus-visible {
+  outline-color: var(--accent);
+}
+
+/* ==========================================================================
+   Header — Hello! and the bare profile column
+   ========================================================================== */
+
+#hello {
+  margin-block: 0.67em;
+  text-align: center;
+  font-size: 44px;
+}
+
+/* no box any more: a centred column — clover, name, pronouns */
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em auto;
+}
+
+/* ---------- the spinning clover avatar ----------
+   the registered --spin runs 0→1 over 105s; the shape wrapper turns with it
+   (three full turns) while the photo inside counter-turns by the same amount,
+   so the clover spins around a perfectly still picture. the mechanism is
+   lamp.delivery's; the shape is M3E's official "8-leaf-clover" path, sampled
+   to a 300-point percent polygon with @m3e/web's own generateClipPaths (MIT) */
+
+@property --spin {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes spin-driver {
+  from {
+    --spin: 0;
   }
-
-  body {
-    background-color: var(--bg);
-    color: var(--ink);
-    font-family: 'Brass Mono Code', ui-monospace, SFMono-Regular, Menlo, monospace;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    overflow-x: hidden;
-  }
-
-  ::selection {
-    background: var(--selection);
-    color: var(--selection-ink);
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--amber);
-    outline-offset: 3px;
-  }
-
-  /* thin, quiet scrollbar to match the rest of the UI */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--line-bright) transparent;
-  }
-
-  *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background: var(--line-bright);
-  }
-
-  img {
-    display: block;
+  to {
+    --spin: 1;
   }
 }
 
-@layer components {
-  /* ---------- layout ---------- */
-
-  .shell {
-    width: min(92vw, 1320px);
-    margin-inline: auto;
-  }
-
-  /* every panel is a soft-edged box: fill alone separates it from the page */
-  .panel {
-    background-color: var(--surface);
-    border-radius: var(--radius);
-    padding: clamp(1.5rem, 2.6vw, 2.6rem);
-  }
-
-  .panel-tight {
-    background-color: var(--surface);
-    border-radius: var(--radius);
-    padding: clamp(1.25rem, 2vw, 1.8rem);
-  }
-
-  /* ---------- type ---------- */
-
-  .label {
-    font-size: 0.73rem;
-    line-height: 1;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--signal);
-  }
-
-  .label-amber {
-    font-size: 0.73rem;
-    line-height: 1;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--amber);
-  }
-
-  .display {
-    line-height: 1.02;
-    letter-spacing: -0.02em;
-    font-weight: 700;
-  }
-
-  .prose-dim {
-    color: var(--ink-soft);
-    line-height: 1.85;
-  }
-
-  /* ---------- buttons ---------- */
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.8rem 1.25rem;
-    font-size: 0.82rem;
-    letter-spacing: 0.04em;
-    background-color: var(--surface-sunken);
-    color: var(--ink);
-    border-radius: var(--radius);
-  }
-
-  .btn-accent {
-    background-color: var(--surface-sunken);
-    color: var(--amber);
-  }
-
-
-  /* ---------- small parts ---------- */
-
-  .hairline {
-    height: 1px;
-    background-color: var(--line);
-    border: 0;
-  }
-
-  /* the smallest meta text — signatures, notes, badges */
-  .meta {
-    color: var(--signal);
-  }
-
-  .meta-dim {
-    color: var(--signal-dim);
-  }
-
-  /* em dash drawn as a hairline — Brass Mono Code has no U+2014 glyph,
-     and a 1px rule matches the rest of the interface anyway */
-  .dash::before {
-    content: '';
-    display: inline-block;
-    width: 1em;
-    height: 1px;
-    margin-right: 0.45em;
-    background-color: currentColor;
-    vertical-align: 0.3em;
-  }
-
-  .vline {
-    width: 1px;
-    background-color: var(--line);
-    align-self: stretch;
-  }
-
-  /* terminal caret that blinks next to the name */
-  .caret {
-    display: inline-block;
-    width: 0.3em;
-    height: 0.7em;
-    margin-left: 0.14em;
-    background-color: var(--amber);
-    vertical-align: -0.02em;
-    animation: caret-blink 1.15s steps(1, end) infinite;
-  }
-
-  .caret-ink {
-    display: inline-block;
-    width: 0.3em;
-    height: 0.7em;
-    background-color: var(--ink);
-    vertical-align: -0.02em;
-  }
-
-  .prompt {
-    color: var(--amber);
-  }
-
-  /* ---------- links ---------- */
-
-  .text-link {
-    color: var(--ink-soft);
-    transition: color 0.2s ease;
-  }
-
-  .text-link:hover {
-    color: var(--amber);
-  }
-
-  /* ---------- entrance ---------- */
-
-  /* display:grid so a panel stretches to the full height of its grid row */
-  .reveal {
-    display: grid;
-    opacity: 0;
-    transform: translateY(14px);
-    transition:
-      opacity 0.5s ease,
-      transform 0.5s ease;
-  }
-
-  .reveal.is-in {
-    opacity: 1;
-    transform: none;
-  }
+.mask-ring {
+  position: relative;
+  width: min(220px, 56vw);
+  height: min(220px, 56vw);
+  animation: spin-driver 105s linear infinite;
 }
 
-@keyframes caret-blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
-  }
+.cookie-spin {
+  position: absolute;
+  inset: 0;
+  rotate: calc(var(--spin) * 1080deg);
+}
+
+.cookie-shape {
+  position: absolute;
+  inset: 0;
+  /* a near-white cream shows through while the photo loads */
+  background-color: #fffbf2;
+  clip-path: polygon(96.43% 50.00%, 97.05% 51.20%, 97.61% 52.40%, 98.11% 53.59%, 98.54% 54.77%, 98.92% 55.94%, 99.24% 57.11%, 99.51% 58.25%, 99.72% 59.39%, 99.87% 60.51%, 99.96% 61.62%, 100.00% 62.71%, 99.98% 63.79%, 99.91% 64.85%, 99.79% 65.89%, 99.61% 66.91%, 99.38% 67.92%, 99.10% 68.90%, 98.76% 69.86%, 98.37% 70.79%, 97.94% 71.71%, 97.45% 72.59%, 96.92% 73.46%, 96.33% 74.29%, 95.70% 75.10%, 95.02% 75.88%, 94.29% 76.63%, 93.51% 77.36%, 92.69% 78.05%, 91.82% 78.70%, 90.91% 79.33%, 89.95% 79.92%, 88.95% 80.48%, 87.90% 81.00%, 86.82% 81.48%, 85.69% 81.93%, 84.51% 82.34%, 83.30% 82.70%, 82.62% 83.61%, 82.24% 84.81%, 81.82% 85.97%, 81.36% 87.09%, 80.87% 88.17%, 80.34% 89.20%, 79.77% 90.20%, 79.18% 91.14%, 78.54% 92.04%, 77.88% 92.90%, 77.18% 93.71%, 76.45% 94.47%, 75.69% 95.19%, 74.90% 95.86%, 74.09% 96.48%, 73.24% 97.05%, 72.37% 97.58%, 71.48% 98.05%, 70.56% 98.48%, 69.62% 98.85%, 68.65% 99.17%, 67.67% 99.44%, 66.66% 99.66%, 65.63% 99.82%, 64.59% 99.93%, 63.52% 99.99%, 62.44% 99.99%, 61.34% 99.94%, 60.23% 99.83%, 59.11% 99.67%, 57.97% 99.45%, 56.82% 99.17%, 55.65% 98.83%, 54.48% 98.44%, 53.30% 97.99%, 52.10% 97.47%, 50.90% 96.90%, 49.70% 96.59%, 48.49% 97.20%, 47.30% 97.74%, 46.11% 98.22%, 44.93% 98.64%, 43.76% 99.01%, 42.61% 99.32%, 41.46% 99.57%, 40.33% 99.76%, 39.21% 99.89%, 38.10% 99.98%, 37.01% 100.00%, 35.94% 99.97%, 34.89% 99.89%, 33.85% 99.75%, 32.83% 99.56%, 31.84% 99.31%, 30.86% 99.02%, 29.91% 98.67%, 28.97% 98.27%, 28.07% 97.82%, 27.19% 97.32%, 26.33% 96.78%, 25.50% 96.18%, 24.70% 95.53%, 23.92% 94.84%, 23.18% 94.10%, 22.47% 93.31%, 21.79% 92.48%, 21.14% 91.60%, 20.52% 90.67%, 19.94% 89.71%, 19.39% 88.69%, 18.88% 87.64%, 18.40% 86.54%, 17.97% 85.40%, 17.57% 84.21%, 17.21% 82.99%, 16.09% 82.53%, 14.89% 82.14%, 13.74% 81.71%, 12.63% 81.24%, 11.57% 80.74%, 10.54% 80.20%, 9.56% 79.63%, 8.63% 79.02%, 7.74% 78.38%, 6.89% 77.70%, 6.09% 77.00%, 5.34% 76.26%, 4.64% 75.50%, 3.98% 74.70%, 3.37% 73.88%, 2.81% 73.03%, 2.30% 72.15%, 1.84% 71.25%, 1.42% 70.33%, 1.06% 69.38%, 0.76% 68.41%, 0.50% 67.42%, 0.29% 66.41%, 0.14% 65.37%, 0.05% 64.32%, 0.00% 63.25%, 0.01% 62.17%, 0.08% 61.07%, 0.20% 59.95%, 0.38% 58.82%, 0.61% 57.68%, 0.91% 56.53%, 1.26% 55.36%, 1.67% 54.18%, 2.13% 53.00%, 2.66% 51.80%, 3.25% 50.60%, 3.25% 49.40%, 2.66% 48.20%, 2.14% 47.00%, 1.67% 45.82%, 1.26% 44.64%, 0.91% 43.47%, 0.62% 42.32%, 0.38% 41.18%, 0.20% 40.05%, 0.08% 38.93%, 0.01% 37.83%, 0.00% 36.74%, 0.05% 35.68%, 0.14% 34.63%, 0.29% 33.59%, 0.50% 32.58%, 0.76% 31.59%, 1.06% 30.62%, 1.42% 29.67%, 1.84% 28.75%, 2.30% 27.85%, 2.81% 26.97%, 3.37% 26.12%, 3.98% 25.30%, 4.64% 24.50%, 5.34% 23.74%, 6.09% 23.00%, 6.89% 22.29%, 7.74% 21.62%, 8.63% 20.98%, 9.56% 20.37%, 10.54% 19.80%, 11.57% 19.26%, 12.63% 18.76%, 13.74% 18.29%, 14.89% 17.86%, 16.09% 17.47%, 17.21% 17.01%, 17.57% 15.79%, 17.96% 14.60%, 18.40% 13.46%, 18.88% 12.36%, 19.39% 11.31%, 19.94% 10.29%, 20.52% 9.33%, 21.14% 8.40%, 21.78% 7.52%, 22.47% 6.69%, 23.18% 5.90%, 23.92% 5.16%, 24.70% 4.47%, 25.50% 3.82%, 26.33% 3.23%, 27.19% 2.68%, 28.07% 2.18%, 28.97% 1.73%, 29.91% 1.33%, 30.86% 0.98%, 31.83% 0.69%, 32.83% 0.44%, 33.85% 0.25%, 34.89% 0.11%, 35.94% 0.03%, 37.01% 0.00%, 38.10% 0.02%, 39.21% 0.11%, 40.33% 0.24%, 41.46% 0.43%, 42.60% 0.68%, 43.76% 0.99%, 44.93% 1.36%, 46.11% 1.78%, 47.30% 2.26%, 48.49% 2.80%, 49.70% 3.41%, 50.90% 3.10%, 52.10% 2.53%, 53.29% 2.01%, 54.48% 1.56%, 55.65% 1.17%, 56.82% 0.83%, 57.97% 0.55%, 59.11% 0.33%, 60.23% 0.17%, 61.34% 0.06%, 62.44% 0.01%, 63.52% 0.01%, 64.59% 0.07%, 65.63% 0.18%, 66.66% 0.34%, 67.67% 0.56%, 68.65% 0.83%, 69.62% 1.15%, 70.56% 1.52%, 71.48% 1.95%, 72.37% 2.42%, 73.24% 2.94%, 74.09% 3.52%, 74.90% 4.14%, 75.69% 4.81%, 76.45% 5.53%, 77.18% 6.29%, 77.88% 7.10%, 78.54% 7.96%, 79.17% 8.86%, 79.77% 9.80%, 80.34% 10.80%, 80.87% 11.83%, 81.36% 12.91%, 81.82% 14.03%, 82.24% 15.19%, 82.61% 16.39%, 83.30% 17.29%, 84.51% 17.66%, 85.68% 18.07%, 86.82% 18.52%, 87.90% 19.00%, 88.95% 19.52%, 89.95% 20.08%, 90.91% 20.67%, 91.82% 21.30%, 92.69% 21.95%, 93.51% 22.64%, 94.29% 23.36%, 95.02% 24.12%, 95.70% 24.90%, 96.33% 25.71%, 96.92% 26.54%, 97.45% 27.40%, 97.94% 28.29%, 98.37% 29.21%, 98.76% 30.14%, 99.09% 31.10%, 99.38% 32.08%, 99.61% 33.09%, 99.79% 34.11%, 99.91% 35.15%, 99.98% 36.21%, 100.00% 37.28%, 99.96% 38.38%, 99.86% 39.49%, 99.71% 40.61%, 99.51% 41.74%, 99.24% 42.89%, 98.92% 44.05%, 98.54% 45.23%, 98.10% 46.41%, 97.61% 47.60%, 97.05% 48.79%, 96.43% 50.00%);
+}
+
+.cookie-avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  rotate: calc(var(--spin) * -1080deg);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  .mask-ring {
+    animation: none;
   }
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+  .cookie-spin,
+  .cookie-avatar {
+    rotate: 0deg;
   }
+}
 
-  .reveal {
-    opacity: 1;
-    transform: none;
+.name {
+  margin-top: 0.75em;
+  color: var(--ink);
+}
+
+.pronouns {
+  margin-top: 0.25em;
+  color: var(--accent);
+}
+
+.welcome {
+  /* capped at 460px on wide screens; the min() keeps 16px side margins when
+     the viewport is narrower */
+  max-width: min(460px, 100% - 32px);
+  margin: 1em auto;
+}
+
+/* ==========================================================================
+   Buttons — the row that switches the cards below
+   ========================================================================== */
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+  top: 24px;
+  max-width: 768px;
+  margin: auto;
+}
+
+.styledbutton {
+  display: inline;
+  /* the reference's <p> buttons carry default 1em block margins, which puts
+     the row's rhythm right — the chips end just 6px over the box edge */
+  margin-block: 1em;
+  padding: 10px;
+  border: 0;
+  font: inherit;
+  color: var(--panel-ink);
+  background-color: var(--panel);
+  cursor: pointer;
+}
+
+/* the active button presses flat: a page-coloured chip with ink text */
+.styledbutton[aria-pressed='true'] {
+  color: var(--ink);
+  background-color: var(--bg);
+}
+
+/* ==========================================================================
+   Cards — one cocoa box, split into columns on wider screens
+   ========================================================================== */
+
+.contents {
+  max-width: 1152px;
+  margin: auto;
+  color: var(--panel-ink);
+  background-color: var(--panel);
+}
+
+.card {
+  padding: 1em;
+}
+
+.card h2 {
+  /* browser-default heading margins — the reference has no reset either */
+  margin: 0.83em 0;
+}
+
+.card > p {
+  margin: 1em 0;
+  line-height: 1.5;
+}
+
+.card small {
+  display: block;
+}
+
+@media screen and (width >= 700px) {
+  .contents {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
+}
+
+@media screen and (width >= 1000px) {
+  .contents {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* ---------- favourites: posters inside a card ---------- */
+
+.posters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 10px;
+}
+
+.poster img {
+  width: 100%;
+  /* height: auto beats a height attribute, so the ratio below always wins */
+  height: auto;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+}
+
+.poster p {
+  margin-top: 4px;
+  font-size: small;
+  line-height: 1.3;
+}
+
+/* ---------- contact ---------- */
+
+.contact-icon {
+  margin-bottom: 0.5em;
+}
+
+/* the Discord handle copies itself, since Discord has no profile links */
+.copy-handle {
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: var(--link);
+  background: none;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer {
+  padding: 1.5em 1em;
+  text-align: center;
 }

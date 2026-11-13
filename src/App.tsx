@@ -1,51 +1,66 @@
-import { Hero } from './components/Hero'
-import { About } from './components/About'
+import { useState } from 'react'
+import { profile } from './data'
 import { Projects } from './components/Projects'
-import { Contact } from './components/Contact'
-import { FamousQuotes } from './components/FamousQuotes'
 import { Favourites } from './components/Favourites'
+import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
-import { Reveal } from './components/Reveal'
+
+const TABS = [
+  { id: 'projects', label: 'Projects', View: Projects },
+  { id: 'favourites', label: 'Favourites', View: Favourites },
+  { id: 'contact', label: 'Contact', View: Contact },
+] as const
+
+type TabId = (typeof TABS)[number]['id']
 
 export default function App() {
+  const [tab, setTab] = useState<TabId>('projects')
+  const Active = TABS.find((t) => t.id === tab)?.View ?? Projects
+
   return (
-    <div className="min-h-screen bg-[var(--bg)] py-6 sm:py-8">
-      <a
-        href="#about"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:border focus:border-[var(--amber)] focus:bg-[var(--surface)] focus:px-4 focus:py-2 focus:text-[0.8rem]"
-      >
-        Skip to content
-      </a>
+    <>
+      <h1 id="hello">Hello!</h1>
 
-      <main className="shell grid gap-4 lg:grid-cols-12 lg:gap-5">
-        <Reveal className="lg:col-span-7">
-          <Hero />
-        </Reveal>
+      <header className="profile">
+        <div className="mask-ring">
+          <div className="cookie-spin">
+            <div className="cookie-shape">
+              <img
+                className="cookie-avatar"
+                src="/icon-512.png"
+                alt="Prawal's avatar — ink drawing of a long-haired swordsman, eyes covered by a blur"
+                width={512}
+                height={512}
+                loading="eager"
+              />
+            </div>
+          </div>
+        </div>
+        <h1 className="name">{profile.name}</h1>
+        <p className="pronouns">{profile.pronouns}</p>
+      </header>
 
-        <Reveal className="lg:col-span-5" delay={70}>
-          <About />
-        </Reveal>
+      <p className="welcome">{profile.welcome}</p>
 
-        <Reveal className="lg:col-span-12">
-          <Projects />
-        </Reveal>
+      <nav className="buttons" aria-label="Sections">
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            className="styledbutton"
+            aria-pressed={tab === t.id}
+            onClick={() => setTab(t.id)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </nav>
 
-        <Reveal className="lg:col-span-12">
-          <Contact />
-        </Reveal>
-
-        <Reveal className="lg:col-span-12">
-          <FamousQuotes />
-        </Reveal>
-
-        <Reveal className="lg:col-span-12">
-          <Favourites />
-        </Reveal>
+      <main className="contents" id="contents">
+        <Active />
       </main>
 
-      <div className="shell">
-        <Footer />
-      </div>
-    </div>
+      <Footer />
+    </>
   )
 }

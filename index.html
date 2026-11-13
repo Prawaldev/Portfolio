@@ -3,39 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Prawal Khadka — BCA student and aspiring developer. Learning web development and building websites with the help of AI."
-    />
+    <meta name="theme-color" content="#f5e9d7" />
+    <meta name="description" content="Prawal Khadka's website" />
     <meta name="author" content="Prawal Khadka" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Prawal Khadka — BCA Student | Aspiring Developer" />
-    <meta
-      property="og:description"
-      content="Learning web development, building projects, and improving over time."
-    />
-    <title>&gt;_ Prawal Khadka</title>
+    <meta property="og:title" content="Prawal Khadka's site" />
+    <meta property="og:description" content="Prawal Khadka's website" />
+    <title>Prawaldev</title>
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="preload" href="/fonts/BrassMonoCode-Regular.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="/fonts/BrassMonoCode-Bold.ttf" as="font" type="font/ttf" crossorigin />
-
-    <script>
-      // set the saved theme before first paint so the page never flashes
-      (function () {
-        try {
-          var saved = localStorage.getItem('pk-theme')
-          if (saved === 'light' || saved === 'dark') {
-            document.documentElement.dataset.theme = saved
-          }
-        } catch (error) {
-          /* private mode — keep the dark default */
-        }
-      })()
-    </script>
+    <link rel="preload" href="/fonts/Ticketing.woff2" as="font" type="font/woff2" crossorigin />
 
     <script
       data-goatcounter="https://prawal.goatcounter.com/count"
@@ -47,4 +25,4 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
-</html>   
+</html>
