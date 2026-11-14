@@ -3,7 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f5e9d7" />
+    <meta name="theme-color" content="#000000" />
+    <script>
+      // the stored theme is applied before first paint, so there is no flash
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem('theme') || 'amoled'
+      } catch {
+        /* storage unavailable — amoled stands */
+      }
+    </script>
     <meta name="description" content="Prawal Khadka's website" />
     <meta name="author" content="Prawal Khadka" />
     <meta property="og:type" content="website" />
