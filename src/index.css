@@ -1,10 +1,10 @@
 /* ==========================================================================
-   Ticketing — pixel font, self hosted
+   Brass Mono Code — pixel font, self hosted
    ========================================================================== */
 
 @font-face {
-  font-family: 'Ticketing';
-  src: url('/fonts/Ticketing.woff2') format('woff2');
+  font-family: 'Brass Mono Code';
+  src: url('/fonts/BrassMonoCode.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -42,7 +42,7 @@ body {
   margin: 0;
   background-color: var(--bg);
   color: var(--ink);
-  font-family: 'Ticketing', serif;
+  font-family: 'Brass Mono Code', monospace;
   font-size: large;
 }
 
