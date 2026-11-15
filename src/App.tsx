@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { profile } from './data'
 import { ThemeSwitch } from './components/ThemeSwitch'
+import { CardArt } from './components/CardArt'
 import { Projects } from './components/Projects'
 import { Favourites } from './components/Favourites'
 import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
 
 const TABS = [
-  { id: 'projects', label: 'Projects', View: Projects, look: 'navy', icon: 'folder', tilt: -9 },
-  { id: 'favourites', label: 'Favourites', View: Favourites, look: 'green', icon: 'heart', tilt: 0 },
-  { id: 'contact', label: 'Contact', View: Contact, look: 'cocoa', icon: 'info', tilt: 9 },
+  { id: 'projects', label: 'Projects', View: Projects, look: 'navy', icon: 'folder', tilt: -9, dir: '~/prawaldev-projects' },
+  { id: 'favourites', label: 'Favourites', View: Favourites, look: 'green', icon: 'heart', tilt: 0, dir: '~/prawal-favourites' },
+  { id: 'contact', label: 'Contact', View: Contact, look: 'cocoa', icon: 'info', tilt: 9, dir: '~/.config/prawal' },
 ] as const
 
 type TabId = (typeof TABS)[number]['id']
@@ -18,7 +19,7 @@ type TabId = (typeof TABS)[number]['id']
 export default function App() {
   const [active, setActive] = useState<TabId | null>(null)
   const [closing, setClosing] = useState(false)
-  /** where the picked card sat — the screen grows out of that spot */
+  /** where the picked card sat — the terminal grows out of that spot */
   const [origin, setOrigin] = useState({ x: '0px', y: '0px', r: '0deg' })
 
   const activeTab = TABS.find((t) => t.id === active)
@@ -31,7 +32,7 @@ export default function App() {
     }
   }, [active])
 
-  /* escape folds the card back into the hand */
+  /* escape folds the terminal back into the hand */
   useEffect(() => {
     if (!active) return
     const onKey = (e: KeyboardEvent) => {
@@ -41,7 +42,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [active])
 
-  /** remember where the picked card sat, then deal the screen out of it */
+  /** remember where the picked card sat, then deal the terminal out of it */
   function open(id: TabId, el: HTMLButtonElement) {
     const r = el.getBoundingClientRect()
     setOrigin({
@@ -59,20 +60,14 @@ export default function App() {
       <h1 id="hello">Hello!</h1>
 
       <header className="profile">
-        <div className="mask-ring">
-          <div className="cookie-spin">
-            <div className="cookie-shape">
-              <img
-                className="cookie-avatar"
-                src="/icon-512.png"
-                alt="Prawal's avatar — ink drawing of a long-haired swordsman, eyes covered by a blur"
-                width={512}
-                height={512}
-                loading="eager"
-              />
-            </div>
-          </div>
-        </div>
+        <img
+          className="avatar"
+          src="/icon-512.png"
+          alt="Prawal's avatar — ink drawing of a long-haired swordsman, eyes covered by a blur"
+          width={512}
+          height={512}
+          loading="eager"
+        />
         <h1 className="name">{profile.name}</h1>
         <p className="pronouns">{profile.pronouns}</p>
       </header>
@@ -88,16 +83,8 @@ export default function App() {
             data-tilt={t.tilt}
             onClick={(e) => open(t.id, e.currentTarget)}
           >
-            <span className="pip">
-              <span className={`icon icon-${t.icon}`} />
-            </span>
-            <span className="deckcard-emblem">
-              <span className={`icon icon-${t.icon}`} />
-            </span>
+            <CardArt icon={t.icon} />
             <span className="deckcard-label">{t.label}</span>
-            <span className="pip pip-flip">
-              <span className={`icon icon-${t.icon}`} />
-            </span>
           </button>
         ))}
       </nav>
@@ -120,17 +107,25 @@ export default function App() {
             }
           }}
         >
-          <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={() => setClosing(true)}
-          >
-            <span className="icon icon-x" aria-hidden="true" />
-          </button>
-          <div className="screen-inner">
-            <div className="contents">
-              <activeTab.View />
+          <div className="term">
+            <div className="term-body">
+              <div className="term-inner">
+                <activeTab.View />
+              </div>
+            </div>
+            <div className="term-tabbar">
+              <span className="term-tab">
+                <span className="term-tab-title">{`prawal@arch: ${activeTab.dir}`}</span>
+                <button
+                  type="button"
+                  className="term-tab-close"
+                  aria-label="Close"
+                  onClick={() => setClosing(true)}
+                >
+                  <span className="icon icon-x" aria-hidden="true" />
+                </button>
+              </span>
+              <span className="term-hint">esc to quit</span>
             </div>
           </div>
         </main>

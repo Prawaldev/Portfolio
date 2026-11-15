@@ -166,24 +166,8 @@ a {
   --icon: url('/icons/moonStars.svg');
 }
 
-.icon-github {
-  --icon: url('/icons/github.svg');
-}
-
 .icon-x {
   --icon: url('/icons/x.svg');
-}
-
-.icon-folder {
-  --icon: url('/icons/folder.svg');
-}
-
-.icon-heart {
-  --icon: url('/icons/heart.svg');
-}
-
-.icon-info {
-  --icon: url('/icons/info.svg');
 }
 
 /* ==========================================================================
@@ -196,7 +180,7 @@ a {
   font-size: 44px;
 }
 
-/* no box any more: a centred column — clover, name, pronouns */
+/* a centred column — avatar, name, pronouns; the picture just sits there */
 .profile {
   display: flex;
   flex-direction: column;
@@ -204,74 +188,31 @@ a {
   margin: 1em auto;
 }
 
-/* ---------- the spinning clover avatar ----------
-   the registered --spin runs 0→1 over 105s; the shape wrapper turns with it
-   (three full turns) while the photo inside counter-turns by the same amount,
-   so the clover spins around a perfectly still picture. the mechanism is
-   lamp.delivery's; the shape is M3E's official "8-leaf-clover" path, sampled
-   to a 300-point percent polygon with @m3e/web's own generateClipPaths (MIT) */
-
-@property --spin {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-
-@keyframes spin-driver {
-  from {
-    --spin: 0;
-  }
-  to {
-    --spin: 1;
-  }
-}
-
-.mask-ring {
-  position: relative;
-  width: min(220px, 56vw);
-  height: min(220px, 56vw);
-  animation: spin-driver 105s linear infinite;
-}
-
-.cookie-spin {
-  position: absolute;
-  inset: 0;
-  rotate: calc(var(--spin) * 1080deg);
-}
-
-.cookie-shape {
-  position: absolute;
-  inset: 0;
-  /* the page colour shows through while the photo loads */
-  background-color: var(--bg);
-  clip-path: polygon(96.43% 50.00%, 97.05% 51.20%, 97.61% 52.40%, 98.11% 53.59%, 98.54% 54.77%, 98.92% 55.94%, 99.24% 57.11%, 99.51% 58.25%, 99.72% 59.39%, 99.87% 60.51%, 99.96% 61.62%, 100.00% 62.71%, 99.98% 63.79%, 99.91% 64.85%, 99.79% 65.89%, 99.61% 66.91%, 99.38% 67.92%, 99.10% 68.90%, 98.76% 69.86%, 98.37% 70.79%, 97.94% 71.71%, 97.45% 72.59%, 96.92% 73.46%, 96.33% 74.29%, 95.70% 75.10%, 95.02% 75.88%, 94.29% 76.63%, 93.51% 77.36%, 92.69% 78.05%, 91.82% 78.70%, 90.91% 79.33%, 89.95% 79.92%, 88.95% 80.48%, 87.90% 81.00%, 86.82% 81.48%, 85.69% 81.93%, 84.51% 82.34%, 83.30% 82.70%, 82.62% 83.61%, 82.24% 84.81%, 81.82% 85.97%, 81.36% 87.09%, 80.87% 88.17%, 80.34% 89.20%, 79.77% 90.20%, 79.18% 91.14%, 78.54% 92.04%, 77.88% 92.90%, 77.18% 93.71%, 76.45% 94.47%, 75.69% 95.19%, 74.90% 95.86%, 74.09% 96.48%, 73.24% 97.05%, 72.37% 97.58%, 71.48% 98.05%, 70.56% 98.48%, 69.62% 98.85%, 68.65% 99.17%, 67.67% 99.44%, 66.66% 99.66%, 65.63% 99.82%, 64.59% 99.93%, 63.52% 99.99%, 62.44% 99.99%, 61.34% 99.94%, 60.23% 99.83%, 59.11% 99.67%, 57.97% 99.45%, 56.82% 99.17%, 55.65% 98.83%, 54.48% 98.44%, 53.30% 97.99%, 52.10% 97.47%, 50.90% 96.90%, 49.70% 96.59%, 48.49% 97.20%, 47.30% 97.74%, 46.11% 98.22%, 44.93% 98.64%, 43.76% 99.01%, 42.61% 99.32%, 41.46% 99.57%, 40.33% 99.76%, 39.21% 99.89%, 38.10% 99.98%, 37.01% 100.00%, 35.94% 99.97%, 34.89% 99.89%, 33.85% 99.75%, 32.83% 99.56%, 31.84% 99.31%, 30.86% 99.02%, 29.91% 98.67%, 28.97% 98.27%, 28.07% 97.82%, 27.19% 97.32%, 26.33% 96.78%, 25.50% 96.18%, 24.70% 95.53%, 23.92% 94.84%, 23.18% 94.10%, 22.47% 93.31%, 21.79% 92.48%, 21.14% 91.60%, 20.52% 90.67%, 19.94% 89.71%, 19.39% 88.69%, 18.88% 87.64%, 18.40% 86.54%, 17.97% 85.40%, 17.57% 84.21%, 17.21% 82.99%, 16.09% 82.53%, 14.89% 82.14%, 13.74% 81.71%, 12.63% 81.24%, 11.57% 80.74%, 10.54% 80.20%, 9.56% 79.63%, 8.63% 79.02%, 7.74% 78.38%, 6.89% 77.70%, 6.09% 77.00%, 5.34% 76.26%, 4.64% 75.50%, 3.98% 74.70%, 3.37% 73.88%, 2.81% 73.03%, 2.30% 72.15%, 1.84% 71.25%, 1.42% 70.33%, 1.06% 69.38%, 0.76% 68.41%, 0.50% 67.42%, 0.29% 66.41%, 0.14% 65.37%, 0.05% 64.32%, 0.00% 63.25%, 0.01% 62.17%, 0.08% 61.07%, 0.20% 59.95%, 0.38% 58.82%, 0.61% 57.68%, 0.91% 56.53%, 1.26% 55.36%, 1.67% 54.18%, 2.13% 53.00%, 2.66% 51.80%, 3.25% 50.60%, 3.25% 49.40%, 2.66% 48.20%, 2.14% 47.00%, 1.67% 45.82%, 1.26% 44.64%, 0.91% 43.47%, 0.62% 42.32%, 0.38% 41.18%, 0.20% 40.05%, 0.08% 38.93%, 0.01% 37.83%, 0.00% 36.74%, 0.05% 35.68%, 0.14% 34.63%, 0.29% 33.59%, 0.50% 32.58%, 0.76% 31.59%, 1.06% 30.62%, 1.42% 29.67%, 1.84% 28.75%, 2.30% 27.85%, 2.81% 26.97%, 3.37% 26.12%, 3.98% 25.30%, 4.64% 24.50%, 5.34% 23.74%, 6.09% 23.00%, 6.89% 22.29%, 7.74% 21.62%, 8.63% 20.98%, 9.56% 20.37%, 10.54% 19.80%, 11.57% 19.26%, 12.63% 18.76%, 13.74% 18.29%, 14.89% 17.86%, 16.09% 17.47%, 17.21% 17.01%, 17.57% 15.79%, 17.96% 14.60%, 18.40% 13.46%, 18.88% 12.36%, 19.39% 11.31%, 19.94% 10.29%, 20.52% 9.33%, 21.14% 8.40%, 21.78% 7.52%, 22.47% 6.69%, 23.18% 5.90%, 23.92% 5.16%, 24.70% 4.47%, 25.50% 3.82%, 26.33% 3.23%, 27.19% 2.68%, 28.07% 2.18%, 28.97% 1.73%, 29.91% 1.33%, 30.86% 0.98%, 31.83% 0.69%, 32.83% 0.44%, 33.85% 0.25%, 34.89% 0.11%, 35.94% 0.03%, 37.01% 0.00%, 38.10% 0.02%, 39.21% 0.11%, 40.33% 0.24%, 41.46% 0.43%, 42.60% 0.68%, 43.76% 0.99%, 44.93% 1.36%, 46.11% 1.78%, 47.30% 2.26%, 48.49% 2.80%, 49.70% 3.41%, 50.90% 3.10%, 52.10% 2.53%, 53.29% 2.01%, 54.48% 1.56%, 55.65% 1.17%, 56.82% 0.83%, 57.97% 0.55%, 59.11% 0.33%, 60.23% 0.17%, 61.34% 0.06%, 62.44% 0.01%, 63.52% 0.01%, 64.59% 0.07%, 65.63% 0.18%, 66.66% 0.34%, 67.67% 0.56%, 68.65% 0.83%, 69.62% 1.15%, 70.56% 1.52%, 71.48% 1.95%, 72.37% 2.42%, 73.24% 2.94%, 74.09% 3.52%, 74.90% 4.14%, 75.69% 4.81%, 76.45% 5.53%, 77.18% 6.29%, 77.88% 7.10%, 78.54% 7.96%, 79.17% 8.86%, 79.77% 9.80%, 80.34% 10.80%, 80.87% 11.83%, 81.36% 12.91%, 81.82% 14.03%, 82.24% 15.19%, 82.61% 16.39%, 83.30% 17.29%, 84.51% 17.66%, 85.68% 18.07%, 86.82% 18.52%, 87.90% 19.00%, 88.95% 19.52%, 89.95% 20.08%, 90.91% 20.67%, 91.82% 21.30%, 92.69% 21.95%, 93.51% 22.64%, 94.29% 23.36%, 95.02% 24.12%, 95.70% 24.90%, 96.33% 25.71%, 96.92% 26.54%, 97.45% 27.40%, 97.94% 28.29%, 98.37% 29.21%, 98.76% 30.14%, 99.09% 31.10%, 99.38% 32.08%, 99.61% 33.09%, 99.79% 34.11%, 99.91% 35.15%, 99.98% 36.21%, 100.00% 37.28%, 99.96% 38.38%, 99.86% 39.49%, 99.71% 40.61%, 99.51% 41.74%, 99.24% 42.89%, 98.92% 44.05%, 98.54% 45.23%, 98.10% 46.41%, 97.61% 47.60%, 97.05% 48.79%, 96.43% 50.00%);
-}
-
-.cookie-avatar {
-  display: block;
-  width: 100%;
-  height: 100%;
+/* just the picture — no frame, no plate; it's a circle on any theme */
+.avatar {
+  width: min(180px, 52vw);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
   object-fit: cover;
-  rotate: calc(var(--spin) * -1080deg);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mask-ring {
-    animation: none;
-  }
-
-  .cookie-spin,
-  .cookie-avatar {
-    rotate: 0deg;
-  }
-
   .screen,
-  .screen-closing {
+  .term {
     animation-duration: 0.01ms;
   }
 
   .deckcard {
     transition: none;
+  }
+
+  .deckcard::after {
+    display: none;
+  }
+
+  .t-cursor {
+    animation: none;
   }
 }
 
@@ -294,7 +235,8 @@ a {
 
 /* ==========================================================================
    Deck — three cards fanned like a hand of playing cards; picking one grows
-   it into a full screen
+   the terminal out of it. the faces are engraved: double frame, pip pockets
+   in the corners, a crown over a diamond medallion, jewelled rays
    ========================================================================== */
 
 .deck {
@@ -308,17 +250,19 @@ a {
   position: relative;
   display: grid;
   grid-template-rows: 1fr auto;
-  justify-items: center;
   width: clamp(120px, 28vw, 160px);
   aspect-ratio: 5 / 7;
-  padding: 12px;
+  padding: 7px 7px 0;
   border: 0;
-  border-radius: 14px;
+  border-radius: 5px;
+  overflow: hidden;
   color: #f7f4ee;
   font: inherit;
   text-align: center;
   transform-origin: 50% 120%;
-  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1),
+    color 0.35s ease;
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
   cursor: pointer;
 }
@@ -342,11 +286,35 @@ a {
   margin-left: -16px;
 }
 
-/* a card lifts and straightens when you reach for it */
+/* a card lifts, straightens and gilds itself when you reach for it */
 .deckcard:hover,
 .deckcard:focus-visible {
   transform: rotate(0deg) translateY(-14px) scale(1.06);
   z-index: 2;
+  color: #ffd54a;
+}
+
+/* a one-shot gleam that sweeps across the face on hover — a composited
+   transform, so it never repaints */
+.deckcard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgba(255, 213, 74, 0.16) 50%,
+    transparent 58%
+  );
+  transform: translateX(-140%);
+  transition: transform 0.9s ease;
+  pointer-events: none;
+}
+
+.deckcard:hover::after,
+.deckcard:focus-visible::after {
+  transform: translateX(140%);
 }
 
 /* three distinct faces — navy, forest green and cocoa, cream ink on all */
@@ -362,154 +330,267 @@ a {
   background-color: #4a342a;
 }
 
-/* corner pips, playing-card style */
-.pip {
-  position: absolute;
-  top: 12px;
-  left: 14px;
+/* the engraved art — every stroke inherits the card's currentColor, so the
+   whole face turns gold on hover */
+.cardart {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.pip .icon {
-  width: 14px;
-  height: 14px;
+.cardart .art-line,
+.cardart .art-hair,
+.cardart .art-bracket {
+  fill: none;
+  stroke: currentColor;
+  stroke-linejoin: miter;
 }
 
-.pip-flip {
-  top: auto;
-  left: auto;
-  bottom: 12px;
-  right: 14px;
-  transform: rotate(180deg);
+.cardart .art-line,
+.cardart .art-bracket {
+  stroke-width: 1.1;
 }
 
-/* the big suit emblem in the middle */
-.deckcard-emblem .icon {
-  width: 44px;
-  height: 44px;
+.cardart .art-hair {
+  stroke-width: 0.6;
+  opacity: 0.7;
+}
+
+.cardart .art-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.cardart .art-suit,
+.cardart .art-pip {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.cardart .art-suit {
+  stroke-width: 2;
+}
+
+.cardart .art-pip {
+  stroke-width: 2.6;
 }
 
 .deckcard-label {
+  margin: 0 0 9px;
   font-size: small;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-/* --------------------------------------------------------------------------
-   the screen — the picked card at full size
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   the terminal — the picked card becomes a kitty window: black glass, the
+   transcript inside, kitty's grey tab bar closing it from below
+   ========================================================================== */
 
 .screen {
   position: fixed;
   inset: 0;
   z-index: 20;
-  overflow-y: auto;
-  background: var(--bg);
-  animation: screen-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  display: flex;
+  padding: clamp(8px, 2.5vw, 24px);
+  background: rgba(0, 0, 0, 0.55);
+  animation: overlay-in 0.3s ease both;
+}
+
+.term {
+  display: flex;
+  flex-direction: column;
+  width: min(960px, 100%);
+  height: min(100%, 900px);
+  margin: auto;
+  border: 1px solid rgba(221, 221, 221, 0.22);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.65);
+  animation: term-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
 
 /* grows out of the picked card's spot — --from-* are set from React */
-@keyframes screen-in {
+@keyframes term-in {
   from {
     opacity: 0.35;
     transform: translate(var(--from-x), var(--from-y))
       rotate(var(--from-r)) scale(0.14);
-    border-radius: 16px;
+  }
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
   }
 }
 
 .screen-closing {
-  animation: screen-out 0.28s cubic-bezier(0.5, 0, 0.7, 0.4) both;
+  animation: overlay-out 0.28s cubic-bezier(0.5, 0, 0.7, 0.4) both;
 }
 
-@keyframes screen-out {
+.screen-closing .term {
+  animation: term-out 0.28s cubic-bezier(0.5, 0, 0.7, 0.4) both;
+}
+
+@keyframes term-out {
   to {
     opacity: 0.35;
     transform: translate(var(--from-x), var(--from-y))
       rotate(var(--from-r)) scale(0.14);
-    border-radius: 16px;
   }
 }
 
-/* the bare cross that folds the card back into the hand */
-.close {
-  position: sticky;
-  top: 16px;
+@keyframes overlay-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.term-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 18px 20px 26px;
+  color: #dddddd;
+  font-size: 14px;
+  line-height: 1.7;
+  scrollbar-width: thin;
+  scrollbar-color: #767676 #000;
+}
+
+.term-inner {
+  max-width: min(78ch, 100%);
+}
+
+/* kitty's selection: lemon chiffon under black ink */
+.term-body ::selection {
+  background: #fffacd;
+  color: #000;
+}
+
+/* links wear kitty's url colour */
+.term-body a {
+  color: #0087bd;
+}
+
+.term-body a:hover {
+  color: #14ffff;
+}
+
+/* --------------------------------------------------------------------------
+   the transcript — every line is a row of the terminal
+   -------------------------------------------------------------------------- */
+
+.t-line {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.t-blank {
+  height: 1em;
+}
+
+/* the kitty palette, straight from kitty's defaults */
+.t-user {
+  color: #19cb00;
+  font-weight: 700;
+}
+
+.t-path {
+  color: #0d73cc;
+}
+
+.t-dir {
+  color: #0d73cc;
+  font-weight: 700;
+}
+
+.t-strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.t-muted {
+  color: #767676;
+}
+
+.t-bar {
+  color: #0dcdcd;
+  white-space: pre;
+}
+
+.t-impl {
+  color: #0dcdcd;
+  font-weight: 700;
+}
+
+.t-cmd {
+  color: #ffffff;
+}
+
+/* install lines: label left, progress bar right */
+.t-inst {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 2ch;
+}
+
+/* pacman -Qi blocks: the key column holds 16 characters, then the colon */
+.t-info {
+  margin: 0.2em 0 1.2em;
+}
+
+/* pacman -Qi blocks: the key column holds 16 characters, then the colon;
+   values may break anywhere so long URLs wrap inside a narrow window */
+.ti {
   display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin: 16px 16px 0 auto;
-  padding: 0;
-  border: 0;
-  color: var(--ink);
-  background: none;
-  cursor: pointer;
+  grid-template-columns: 16ch 1ch 1fr;
+  column-gap: 1ch;
+  overflow-wrap: anywhere;
 }
 
-.close:hover {
-  color: var(--link);
+.tk {
+  font-weight: 700;
 }
 
-.close .icon {
-  width: 18px;
-  height: 18px;
+.tcolon {
+  color: #767676;
 }
 
-/* the screen's padding — the box inside sizes itself like the original page */
-.screen-inner {
-  padding: 0 16px 3em;
+/* the block cursor after the last prompt */
+.t-cursor {
+  display: inline-block;
+  width: 0.62em;
+  height: 1.15em;
+  background: #cccccc;
+  vertical-align: text-bottom;
+  animation: kblink 1.1s linear infinite;
 }
 
-/* ==========================================================================
-   Cards — the original cocoa box: one grid of cells inside the screen
-   ========================================================================== */
+@keyframes kblink {
+  0%,
+  49% {
+    opacity: 1;
+  }
 
-/* the box every section sits in — coloured by the theme, never clashing */
-.contents {
-  max-width: 1152px;
-  margin: 0 auto;
-  border: 1px solid var(--line);
-  color: var(--panel-ink);
-  background-color: var(--panel);
-}
-
-.card {
-  padding: 1em;
-}
-
-.card h2 {
-  /* browser-default heading margins — the reference has no reset either */
-  margin: 0.83em 0;
-}
-
-.card > p {
-  margin: 1em 0;
-  line-height: 1.5;
-}
-
-.card small {
-  display: block;
-}
-
-@media screen and (width >= 700px) {
-  .contents {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  50%,
+  100% {
+    opacity: 0;
   }
 }
 
-@media screen and (width >= 1000px) {
-  .contents {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
-/* ---------- favourites: posters inside a card ---------- */
+/* ---------- favourites: the icat gallery ---------- */
 
 .posters {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 12px;
+  margin: 10px 0 4px;
 }
 
 .poster img {
@@ -521,31 +602,106 @@ a {
 }
 
 .poster p {
-  margin-top: 4px;
+  margin-top: 5px;
   font-size: small;
-  line-height: 1.3;
+  line-height: 1.35;
+  color: #767676;
 }
 
-/* ---------- contact ---------- */
+/* ---------- contact: the clickable discord handle ---------- */
 
-.contact-icon {
-  margin-bottom: 0.5em;
-}
-
-/* the github mark rides at its natural 56px again */
-.contact-icon .icon {
-  width: 56px;
-  height: 56px;
-}
-
-/* the Discord handle copies itself, since Discord has no profile links */
 .copy-handle {
   padding: 0;
   border: 0;
   font: inherit;
-  color: var(--link);
+  font-weight: 700;
+  color: #ffffff;
   background: none;
   cursor: pointer;
+}
+
+.copy-handle:hover {
+  color: #14ffff;
+}
+
+/* ---------- kitty's tab bar, closing the window from below ---------- */
+
+.term-tabbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 0 10px;
+  background: #000;
+}
+
+.term-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 80%;
+  padding: 3px 8px 4px;
+  border-radius: 5px 5px 0 0;
+  background: #eeeeee;
+  color: #000;
+  font-size: 13px;
+}
+
+/* kitty's fade style: each tab's edges sink into the background */
+.term-tab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #000, transparent 10%, transparent 90%, #000);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.term-tab-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.term-tab-close {
+  display: grid;
+  place-items: center;
+  padding: 1px;
+  border: 0;
+  color: #000;
+  background: none;
+  cursor: pointer;
+}
+
+.term-tab-close:hover {
+  color: #cc0403;
+}
+
+.term-tab-close .icon {
+  width: 13px;
+  height: 13px;
+}
+
+.term-hint {
+  margin-left: auto;
+  padding-bottom: 7px;
+  color: #767676;
+  font-size: 12px;
+}
+
+@media (width < 700px) {
+  .term-body {
+    padding: 14px 14px 22px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  /* the tab takes the whole bar on a phone — the hint has nowhere to sit */
+  .term-hint {
+    display: none;
+  }
 }
 
 /* ==========================================================================
