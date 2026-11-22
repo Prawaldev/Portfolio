@@ -29,3 +29,6 @@ dist-ssr
 
 # theme
 /Terminal-theme/
+
+#ik it's safe to show but still LMAO (discord)
+/public/.well-known/discord.txt
